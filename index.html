@@ -137,6 +137,19 @@
       position: absolute; inset: 0; width: 100%; height: 100%;
       overflow: visible;
     }
+    @keyframes env-dPop {
+      0%   { transform: scale(0); }
+      65%  { transform: scale(1.35); }
+      100% { transform: scale(1); }
+    }
+    #env-diamonds rect {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    #env-diamonds.pop rect:nth-child(1) { animation: env-dPop .4s cubic-bezier(.34,1.56,.64,1) 0s   both; }
+    #env-diamonds.pop rect:nth-child(2) { animation: env-dPop .4s cubic-bezier(.34,1.56,.64,1) .08s both; }
+    #env-diamonds.pop rect:nth-child(3) { animation: env-dPop .4s cubic-bezier(.34,1.56,.64,1) .16s both; }
+    #env-diamonds.pop rect:nth-child(4) { animation: env-dPop .4s cubic-bezier(.34,1.56,.64,1) .24s both; }
 
     /* Texto dentro del aro */
     #env-center-text {
@@ -2781,10 +2794,10 @@
                   stroke-dasharray="3,9" opacity="0"/>
           <!-- Diamantes cardinales (N/E/S/W) -->
           <g id="env-diamonds" opacity="0">
-            <rect x="97.5" y="4"   width="5" height="5" transform="rotate(45,100,6.5)"   fill="#fee4a8"/>
-            <rect x="97.5" y="190" width="5" height="5" transform="rotate(45,100,192.5)" fill="#fee4a8"/>
-            <rect x="4"   y="97.5" width="5" height="5" transform="rotate(45,6.5,100)"   fill="#fee4a8"/>
-            <rect x="190" y="97.5" width="5" height="5" transform="rotate(45,192.5,100)" fill="#fee4a8"/>
+            <rect x="97.5" y="5.5"   width="5" height="5" transform="rotate(45,100,8)"   fill="#fee4a8"/>
+            <rect x="97.5" y="189.5" width="5" height="5" transform="rotate(45,100,192)" fill="#fee4a8"/>
+            <rect x="5.5"  y="97.5"  width="5" height="5" transform="rotate(45,8,100)"   fill="#fee4a8"/>
+            <rect x="189.5" y="97.5" width="5" height="5" transform="rotate(45,192,100)" fill="#fee4a8"/>
           </g>
         </svg>
 
@@ -3832,9 +3845,12 @@
 
     // ── Diamantes cardinales: pop in en stagger ──
     gsap.fromTo('#env-diamonds',
-      { opacity: 0, scale: 0 },
-      { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(2.5)', delay: 1.7,
-        transformOrigin: 'center center' }
+      { opacity: 0 },
+      { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 1.7,
+        onStart: function() {
+          document.getElementById('env-diamonds').classList.add('pop');
+        }
+      }
     );
 
     // ── Monograma + fecha aparecen ──
