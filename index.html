@@ -2538,25 +2538,66 @@
       font-size: 12px; letter-spacing: 2px; color: var(--gold); opacity: .7;
     }
 
-    /* hero portrait frame */
-    .hero-portrait-wrap {
-      position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
-      width: min(180px, 52vw); z-index: 4;
+    /* ── HERO CANVAS (sin video) ───────────────────── */
+    #hero {
+      background: radial-gradient(ellipse at 50% 35%,
+        rgba(212,197,178,.55) 0%,
+        rgba(254,228,168,.2) 35%,
+        rgba(250,245,236,0) 70%
+      ), var(--bg);
     }
-    .hero-portrait-wrap::before {
-      content: ''; position: absolute; inset: 8px;
-      border: 1px solid rgba(212,197,178,.45); border-radius: 2px;
-      z-index: 2; pointer-events: none;
+    .hero-overlay { background: none; }
+    .hero-vignette { background: radial-gradient(ellipse at center, transparent 38%, rgba(30,18,0,.07) 100%); }
+    .hero-names { color: var(--accent); text-shadow: 0 2px 20px rgba(169,104,0,.1); }
+    .hero-heart { color: var(--gold); filter: drop-shadow(0 0 10px rgba(169,104,0,.35)); }
+    .hero-date { color: var(--gold); }
+    .hero-city { color: rgba(30,18,0,.5); }
+    .hero-scroll span { color: rgba(30,18,0,.42); }
+    .scroll-line { background: linear-gradient(180deg, rgba(30,18,0,.3), transparent); }
+    .hero-ornament-top, .hero-ornament-bottom {
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
-    .hero-portrait-img {
-      width: 100%; height: 240px; object-fit: cover; object-position: center top;
-      display: block; border-radius: 2px; will-change: transform;
-      filter: brightness(.92) contrast(1.04);
+
+    /* Canvas decorativo del hero */
+    .hero-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+    .hc-monogram {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(380px, 96vw); height: min(380px, 96vw); opacity: .55;
     }
-    .hero-portrait-caption {
-      text-align: center; margin-top: 8px;
-      font-family: var(--serif); font-style: italic;
-      font-size: 11px; letter-spacing: 3px; color: rgba(255,255,255,.7);
+    .hc-monogram svg { width: 100%; height: 100%; }
+    .hc-corner {
+      position: absolute; width: 110px; height: 110px; opacity: .55;
+    }
+    .hc-corner.tl { top: 0; left: 0; }
+    .hc-corner.tr { top: 0; right: 0; transform: scaleX(-1); }
+    .hc-corner.bl { bottom: 0; left: 0; transform: scaleY(-1); }
+    .hc-corner.br { bottom: 0; right: 0; transform: scale(-1); }
+
+    /* ── GALERÍA POLAROID (fall & settle) ───────────── */
+    #galeria { text-align: center; }
+    .gfall-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 28px; margin-top: 44px; padding-bottom: 8px;
+    }
+    .gfall-card {
+      width: min(260px, 82vw);
+      background: #fff;
+      padding: 12px 12px 46px;
+      box-shadow: 0 10px 38px rgba(30,18,0,.16), 0 2px 8px rgba(30,18,0,.08);
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+    .gfall-card:nth-child(1) { --rot: -4deg; margin-left: -18px; }
+    .gfall-card:nth-child(2) { --rot:  3deg; margin-left:  22px; }
+    .gfall-card:nth-child(3) { --rot: -2deg; margin-left: -10px; }
+    .gfall-img {
+      width: 100%; height: 300px; object-fit: cover;
+      object-position: center; display: block;
+    }
+    .gfall-caption {
+      font-family: var(--script); font-size: 22px;
+      color: var(--gold); text-align: center; margin-top: 8px;
     }
 
     /* ── ENVELOPE / LLUVIA DE SOBRES ───────────── */
@@ -2675,10 +2716,62 @@
 
     <!-- ── 1. HERO ─────────────────────────────────── -->
     <section id="hero" aria-label="Portada">
-      <video class="hero-bg" id="hero-bg" aria-hidden="true" autoplay loop muted playsinline preload="auto" poster="sobre.png">
-        <source src="hero-novios.mp4" type="video/mp4">
-      </video>
-      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <!-- Canvas decorativo (sin imagen ni video) -->
+      <div class="hero-canvas" aria-hidden="true">
+        <!-- Monograma circular de fondo -->
+        <div class="hc-monogram">
+          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="92" stroke="rgba(169,104,0,.14)" stroke-width="1"/>
+            <circle cx="100" cy="100" r="80" stroke="rgba(169,104,0,.10)" stroke-width=".8" stroke-dasharray="3 9"/>
+            <circle cx="100" cy="100" r="68" stroke="rgba(169,104,0,.07)" stroke-width=".7"/>
+            <!-- Diamantes en los ejes -->
+            <rect x="97" y="4" width="6" height="6" transform="rotate(45 100 7)" fill="rgba(169,104,0,.28)"/>
+            <rect x="97" y="186" width="6" height="6" transform="rotate(45 100 189)" fill="rgba(169,104,0,.28)"/>
+            <rect x="4" y="97" width="6" height="6" transform="rotate(45 7 100)" fill="rgba(169,104,0,.28)"/>
+            <rect x="186" y="97" width="6" height="6" transform="rotate(45 189 100)" fill="rgba(169,104,0,.28)"/>
+          </svg>
+        </div>
+        <!-- Ornamentos en esquinas -->
+        <svg class="hc-corner tl" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 106 Q4 4 106 4" stroke="rgba(169,104,0,.28)" stroke-width="1.2" fill="none"/>
+          <path d="M4 106 Q10 10 100 10" stroke="rgba(169,104,0,.14)" stroke-width=".8" fill="none"/>
+          <path d="M22 84 Q14 66 28 58" stroke="rgba(169,104,0,.35)" stroke-width="1" fill="none"/>
+          <path d="M42 58 Q32 42 46 34" stroke="rgba(169,104,0,.32)" stroke-width="1" fill="none"/>
+          <path d="M28 58 Q32 48 40 50" stroke="rgba(169,104,0,.22)" stroke-width=".7" fill="none"/>
+          <ellipse cx="20" cy="88" rx="4" ry="2.5" transform="rotate(-30 20 88)" fill="rgba(169,104,0,.25)"/>
+          <ellipse cx="38" cy="62" rx="4" ry="2.5" transform="rotate(-45 38 62)" fill="rgba(169,104,0,.25)"/>
+          <rect x="5" y="5" width="6" height="6" transform="rotate(45 8 8)" fill="rgba(169,104,0,.45)"/>
+        </svg>
+        <svg class="hc-corner tr" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 106 Q4 4 106 4" stroke="rgba(169,104,0,.28)" stroke-width="1.2" fill="none"/>
+          <path d="M4 106 Q10 10 100 10" stroke="rgba(169,104,0,.14)" stroke-width=".8" fill="none"/>
+          <path d="M22 84 Q14 66 28 58" stroke="rgba(169,104,0,.35)" stroke-width="1" fill="none"/>
+          <path d="M42 58 Q32 42 46 34" stroke="rgba(169,104,0,.32)" stroke-width="1" fill="none"/>
+          <ellipse cx="20" cy="88" rx="4" ry="2.5" transform="rotate(-30 20 88)" fill="rgba(169,104,0,.25)"/>
+          <ellipse cx="38" cy="62" rx="4" ry="2.5" transform="rotate(-45 38 62)" fill="rgba(169,104,0,.25)"/>
+          <rect x="5" y="5" width="6" height="6" transform="rotate(45 8 8)" fill="rgba(169,104,0,.45)"/>
+        </svg>
+        <svg class="hc-corner bl" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 106 Q4 4 106 4" stroke="rgba(169,104,0,.28)" stroke-width="1.2" fill="none"/>
+          <path d="M4 106 Q10 10 100 10" stroke="rgba(169,104,0,.14)" stroke-width=".8" fill="none"/>
+          <path d="M22 84 Q14 66 28 58" stroke="rgba(169,104,0,.35)" stroke-width="1" fill="none"/>
+          <path d="M42 58 Q32 42 46 34" stroke="rgba(169,104,0,.32)" stroke-width="1" fill="none"/>
+          <ellipse cx="20" cy="88" rx="4" ry="2.5" transform="rotate(-30 20 88)" fill="rgba(169,104,0,.25)"/>
+          <ellipse cx="38" cy="62" rx="4" ry="2.5" transform="rotate(-45 38 62)" fill="rgba(169,104,0,.25)"/>
+          <rect x="5" y="5" width="6" height="6" transform="rotate(45 8 8)" fill="rgba(169,104,0,.45)"/>
+        </svg>
+        <svg class="hc-corner br" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 106 Q4 4 106 4" stroke="rgba(169,104,0,.28)" stroke-width="1.2" fill="none"/>
+          <path d="M4 106 Q10 10 100 10" stroke="rgba(169,104,0,.14)" stroke-width=".8" fill="none"/>
+          <path d="M22 84 Q14 66 28 58" stroke="rgba(169,104,0,.35)" stroke-width="1" fill="none"/>
+          <path d="M42 58 Q32 42 46 34" stroke="rgba(169,104,0,.32)" stroke-width="1" fill="none"/>
+          <ellipse cx="20" cy="88" rx="4" ry="2.5" transform="rotate(-30 20 88)" fill="rgba(169,104,0,.25)"/>
+          <ellipse cx="38" cy="62" rx="4" ry="2.5" transform="rotate(-45 38 62)" fill="rgba(169,104,0,.25)"/>
+          <rect x="5" y="5" width="6" height="6" transform="rotate(45 8 8)" fill="rgba(169,104,0,.45)"/>
+        </svg>
+      </div>
+
       <div class="hero-vignette" aria-hidden="true"></div>
 
       <div class="hero-content">
@@ -2695,14 +2788,6 @@
         <div class="hero-ornament-bottom" id="hero-orn-bottom" aria-hidden="true"></div>
         <p class="hero-date"  id="hero-date">07 · Noviembre · MMXXVI</p>
         <p class="hero-city"  id="hero-city">Piedras Negras, Coahuila</p>
-      </div>
-
-      <!-- Retrato de los novios con parallax -->
-      <div class="hero-portrait-wrap" id="heroPortrait">
-        <img class="hero-portrait-img" id="heroPortraitImg"
-          src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288505754-1.jpeg"
-          alt="Gustavo y Paola" loading="eager" decoding="async">
-        <p class="hero-portrait-caption">G &amp; P</p>
       </div>
 
       <div class="hero-scroll" id="hero-scroll" aria-hidden="true">
@@ -3237,13 +3322,6 @@
         </div>
       </div>
 
-      <!-- Foto parallax 3 -->
-      <div class="par-photo-wrap" id="parPhoto3">
-        <img class="par-photo" id="parPhotoImg3"
-          src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288668512-0.jpeg"
-          alt="Gustavo y Paola" loading="lazy" decoding="async">
-        <p class="par-photo-caption">Con amor, para siempre</p>
-      </div>
     </section>
 
     <!-- ── 8. SIN NIÑOS ─────────────────────────────── -->
@@ -3365,17 +3443,41 @@
       </div>
       <p class="album-text fu">Nos conocimos un noviembre — nuestro clima perfecto otoñal — cuando apenas éramos unos adolescentes: él de 15 y yo de 14. Desde entonces supimos que lo nuestro era especial. Fuimos nuestro primer amor y, sin saberlo, también el amor de nuestra vida.</p>
       <p class="album-text fu" style="margin-top:-12px;">Vivimos momentos hermosos, llenos de ilusiones y promesas, hasta que por cosas del destino nuestros caminos tuvieron que separarse. Solo los tiempos de Dios son perfectos.</p>
-      <!-- Foto parallax 2 -->
-      <div class="par-photo-wrap" id="parPhoto2">
-        <img class="par-photo" id="parPhotoImg2"
-          src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288529465-0.jpeg"
-          alt="Gustavo y Paola" loading="lazy" decoding="async">
-        <p class="par-photo-caption">Nuestra historia</p>
-      </div>
-
       <p class="album-text fu" style="margin-top:-12px;">Pero había algo más fuerte que el tiempo y la distancia. Siempre existió esa conexión inexplicable, ese hilo rojo bendecido por Dios que jamás permitió que nuestras almas dejaran de encontrarse. Y la vida nos regaló el milagro más bonito: volver a estar juntos. En 2022 y 2023 llegaron nuestros pedacitos de amor. Hoy entendemos que nuestra historia nunca tuvo un final… solo estaba esperando el momento perfecto para florecer.</p>
       <p class="album-text fu" style="margin-top:0;font-style:normal;font-size:14px;color:var(--accent);font-family:var(--script);font-size:22px;">"Uno solo puede ser vencido, pero dos pueden resistir. ¡Y la cuerda de tres hilos no se rompe fácilmente!"</p>
       <p class="album-text fu" style="font-size:12px;letter-spacing:2px;font-style:normal;opacity:.6;">Eclesiastés 4:9-12</p>
+    </section>
+
+    <!-- ── GALERÍA DE FOTOS ───────────────────────────── -->
+    <section id="galeria" aria-label="Galería de fotos">
+      <svg class="rose-watermark lg" style="top:10%;right:-50px;transform:rotate(14deg)" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
+      <svg class="rose-watermark md" style="bottom:12%;left:-35px;transform:rotate(-20deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
+
+      <p class="label fu" style="text-align:center;">Nuestros momentos</p>
+      <h2 class="title fu" style="text-align:center;">Galería</h2>
+      <div class="ornament-divider fu">
+        <div class="line"></div>
+        <div class="diamond"></div>
+        <div class="line"></div>
+      </div>
+
+      <div class="gfall-wrap" id="gfallWrap">
+        <div class="gfall-card" id="gfCard1">
+          <img class="gfall-img" loading="lazy" decoding="async" alt="Gustavo y Paola"
+            src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288505754-1.jpeg">
+          <p class="gfall-caption">Gustavo &amp; Paola</p>
+        </div>
+        <div class="gfall-card" id="gfCard2">
+          <img class="gfall-img" loading="lazy" decoding="async" alt="Gustavo y Paola"
+            src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288529465-0.jpeg">
+          <p class="gfall-caption">Noviembre de 2026</p>
+        </div>
+        <div class="gfall-card" id="gfCard3">
+          <img class="gfall-img" loading="lazy" decoding="async" alt="Gustavo y Paola"
+            src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288668512-0.jpeg">
+          <p class="gfall-caption">Para siempre ✦</p>
+        </div>
+      </div>
     </section>
 
     <!-- ── 9. COMPARTIR INVITACIÓN ───────────────── -->
@@ -3684,17 +3786,6 @@
       .to('#hero-city',  { opacity: 1, y: 0, duration: .6, ease: 'power2.out' }, '-=0.5')
       .to('#hero-scroll',{ opacity: 1, duration: .5, ease: 'power2.out' }, '-=0.3');
 
-    /* parallax */
-    gsap.to('#hero-bg', {
-      yPercent: 28,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end:   'bottom top',
-        scrub: true
-      }
-    });
   }
 
   /* ── spawnParticles — destellos rojos ─────────── */
@@ -3868,6 +3959,46 @@
   }
 
 
+  /* ── initGallery — fall & settle ────────────────── */
+  function initGallery() {
+    var cards = document.querySelectorAll('.gfall-card');
+    if (!cards.length) return;
+
+    var rotations = [-4, 3, -2];
+    var offsets   = [-18, 22, -10];
+
+    cards.forEach(function (card, i) {
+      var finalRot = rotations[i] || 0;
+      var finalX   = offsets[i]   || 0;
+
+      gsap.set(card, { rotation: finalRot + (finalRot > 0 ? 18 : -18), x: finalX, y: -320, opacity: 0, transformOrigin: 'center top' });
+
+      gsap.to(card, {
+        y: 0, opacity: 1,
+        rotation: finalRot,
+        x: finalX,
+        duration: 1.15,
+        ease: 'back.out(1.4)',
+        delay: 0.18 * i,
+        scrollTrigger: {
+          trigger: '#gfallWrap',
+          start: 'top 80%',
+          once: true
+        },
+        onComplete: function () {
+          /* pequeño bamboleo al posarse */
+          gsap.to(card, {
+            rotation: finalRot + (i % 2 === 0 ? 1.2 : -1.2),
+            duration: 0.22, ease: 'power1.inOut', yoyo: true, repeat: 2,
+            onComplete: function () {
+              gsap.set(card, { rotation: finalRot });
+            }
+          });
+        }
+      });
+    });
+  }
+
   /* ── initEnvelope ───────────────────────────────── */
   function initEnvelope() {
     var btn     = document.getElementById('giftEnvBtn');
@@ -3963,36 +4094,8 @@
     /* ── ITINERARY (itv3) ───────────────────────── */
     initItinerary();
 
-    /* ── PARALLAX PHOTOS ────────────────────────── */
-    (function () {
-      var heroImg = document.getElementById('heroPortraitImg');
-      if (heroImg) {
-        gsap.to(heroImg, {
-          y: -60, ease: 'none',
-          scrollTrigger: {
-            trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.2
-          }
-        });
-      }
-      var p2 = document.getElementById('parPhotoImg2');
-      if (p2) {
-        gsap.to(p2, {
-          y: -80, ease: 'none',
-          scrollTrigger: {
-            trigger: '#parPhoto2', start: 'top bottom', end: 'bottom top', scrub: 1.4
-          }
-        });
-      }
-      var p3 = document.getElementById('parPhotoImg3');
-      if (p3) {
-        gsap.to(p3, {
-          y: -80, ease: 'none',
-          scrollTrigger: {
-            trigger: '#parPhoto3', start: 'top bottom', end: 'bottom top', scrub: 1.4
-          }
-        });
-      }
-    })();
+    /* ── GALERÍA FALL & SETTLE ──────────────────── */
+    initGallery();
 
     /* ── GALLERY ANIMATIONS ─────────────────────── */
     gsap.utils.toArray('.gal-item').forEach(function (item, i) {
