@@ -2430,73 +2430,94 @@
       #main-content { visibility: visible !important; }
     }
     /* ══════════════════════════════════════════════════════
-       ITINERARIO V3 — Centered Glowing Timeline (de boda-cristal-y-humberto)
+       ITINERARIO V4 — Left Timeline (script time + card body)
     ══════════════════════════════════════════════════════ */
     .itv3 {
       position: relative;
-      display: flex; flex-direction: column; align-items: center;
-      padding: 10px 0 10px;
-      margin-top: 44px;
+      display: flex; flex-direction: column;
+      margin: 40px auto 0;
+      max-width: 380px;
+      padding: 0 16px;
     }
+    /* track pasa por el centro de .itv3-node:
+       left-pad(16) + aside(64) + half-node(16) = 96px */
     .itv3-track {
-      position: absolute; left: 50%; transform: translateX(-50%);
+      position: absolute; left: 96px;
       top: 0; bottom: 0; width: 1px; z-index: 0;
       background: linear-gradient(to bottom,
         transparent 0%,
-        rgba(169,104,0,0.35) 10%,
-        rgba(131,17,0,0.22) 50%,
-        rgba(169,104,0,0.30) 85%,
+        rgba(169,104,0,.35) 10%,
+        rgba(131,17,0,.22) 50%,
+        rgba(169,104,0,.30) 85%,
         transparent 100%);
     }
     .itv3-glow {
-      position: absolute; left: 50%; transform: translateX(-50%);
+      position: absolute; left: 96px; transform: translateX(-50%);
       top: 0; width: 5px; height: 110px;
       background: linear-gradient(to bottom,
-        transparent,
-        rgba(169,104,0,0.55) 20%,
-        rgba(169,104,0,0.90) 50%,
-        rgba(169,104,0,0.55) 80%,
-        transparent);
+        transparent, rgba(169,104,0,.55) 20%,
+        rgba(169,104,0,.90) 50%, rgba(169,104,0,.55) 80%, transparent);
       filter: blur(3px); border-radius: 6px;
       z-index: 1; pointer-events: none;
     }
     .itv3-item {
       position: relative; z-index: 2;
-      display: flex; flex-direction: column; align-items: center;
-      text-align: center; padding: 30px 16px 4px; width: 100%;
+      display: flex; align-items: center; gap: 0;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(212,197,178,.12);
+    }
+    .itv3-item:last-child { border-bottom: none; padding-bottom: 8px; }
+
+    /* Columna izquierda: hora en script */
+    .itv3-aside {
+      width: 64px; flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 1px;
+    }
+    .itv3-time {
+      font-family: var(--script); font-size: 28px;
+      color: #fee4a8; line-height: 1; text-align: center;
+    }
+    .itv3-ampm {
+      font-family: var(--sans); font-size: 9px; letter-spacing: 2.5px;
+      color: rgba(212,197,178,.65); text-transform: uppercase;
+    }
+
+    /* Nodo central con gema */
+    .itv3-node {
+      width: 32px; flex-shrink: 0;
+      display: flex; justify-content: center; align-items: center;
+      z-index: 2;
     }
     .itv3-gem {
-      width: 9px; height: 9px;
+      width: 14px; height: 14px;
       background: linear-gradient(135deg, #fee4a8 30%, #5C0800);
-      transform: rotate(45deg); border-radius: 2px;
-      box-shadow: 0 0 0 4px rgba(169,104,0,0.12), 0 0 18px rgba(169,104,0,0.5);
-      margin-bottom: 18px; flex-shrink: 0;
+      transform: rotate(45deg); border-radius: 3px;
+      box-shadow: 0 0 0 5px rgba(169,104,0,.10), 0 0 18px rgba(169,104,0,.50);
+      flex-shrink: 0;
     }
     .itv3-gem-alt {
       background: linear-gradient(135deg, #99244f 30%, #3d0010);
-      box-shadow: 0 0 0 4px rgba(153,36,79,0.14), 0 0 18px rgba(153,36,79,0.45);
+      box-shadow: 0 0 0 5px rgba(153,36,79,.12), 0 0 18px rgba(153,36,79,.42);
     }
     .itv3-gem-mid {
       background: linear-gradient(135deg, #b8b000 30%, #3a3a00);
-      box-shadow: 0 0 0 4px rgba(102,97,0,0.12), 0 0 18px rgba(102,97,0,0.4);
+      box-shadow: 0 0 0 5px rgba(102,97,0,.10), 0 0 18px rgba(102,97,0,.38);
     }
-    .itv3-time {
-      font-family: var(--serif); font-size: 36px; font-weight: 300;
-      letter-spacing: 6px; color: var(--text); line-height: 1; margin-bottom: 6px;
-      text-indent: 6px;
+
+    /* Columna derecha: evento y lugar */
+    .itv3-body {
+      flex: 1; padding-left: 14px;
     }
     .itv3-ev {
-      font-family: var(--serif); font-style: italic;
-      font-size: 14px; color: rgba(30,18,0,0.55);
-      letter-spacing: 3px; text-transform: uppercase; line-height: 1.5;
-      text-indent: 3px;
+      font-family: var(--serif); font-weight: 600;
+      font-size: 13px; color: var(--crema);
+      letter-spacing: 2.5px; text-transform: uppercase; line-height: 1.4;
     }
     .itv3-sub {
       font-family: var(--serif); font-style: italic;
-      font-size: 12px; color: var(--gold); opacity: .8;
-      letter-spacing: 1px; margin-top: 4px; line-height: 1.4;
+      font-size: 12px; color: rgba(212,197,178,.80);
+      margin-top: 4px; line-height: 1.45;
     }
-    .itv3-item:last-child { padding-bottom: 10px; }
 
     /* ── SWATCHES 3x2 ──────────────────────────── */
     .swatches { grid-template-columns: repeat(3, 1fr); max-width: 300px; margin: 0 auto 24px; }
@@ -2729,7 +2750,7 @@
     <svg id="ico-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
   </button>
 
-  <!-- Ed Sheeran - Perfect -->
+  <!-- Elefante - Si Tú Quieres -->
   <audio id="bg-audio" loop preload="none" aria-hidden="true">
     <source src="music.mp3" type="audio/mpeg" />
   </audio>
@@ -2977,7 +2998,7 @@
           <p class="loc-addr-v2 fu">Juárez S/N, Zona Centro<br>26000 Piedras Negras, Coah.</p>
           <div class="loc-hour-big fu">8:00</div>
           <p class="loc-hour-lbl fu">de la noche</p>
-          <a href="https://www.google.com/maps/search/?api=1&query=Juarez+SN+Zona+Centro+Piedras+Negras+Coahuila"
+          <a href="https://maps.app.goo.gl/M3YP3Tj4X3einvjq9"
              target="_blank" rel="noopener noreferrer"
              class="btn-maps fu" aria-label="Ver Santuario de Guadalupe en Google Maps">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -3009,7 +3030,7 @@
           <p class="loc-addr-v2 fu">Mexicali 305, Colonia Buena Vista<br>26040 Piedras Negras, Coah.</p>
           <div class="loc-hour-big fu">9:00</div>
           <p class="loc-hour-lbl fu">de la noche</p>
-          <a href="https://www.google.com/maps/search/?api=1&query=Mexicali+305+Colonia+Buena+Vista+Piedras+Negras+Coahuila"
+          <a href="https://maps.app.goo.gl/4agCUA55vfePAxHv9"
              target="_blank" rel="noopener noreferrer"
              class="btn-maps fu" aria-label="Ver Quinta Urbana en Google Maps">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -3081,38 +3102,63 @@
         <div class="itv3-glow" id="itvGlow"></div>
 
         <div class="itv3-item">
-          <div class="itv3-gem"></div>
-          <div class="itv3-time">8:00 pm</div>
-          <div class="itv3-ev">Ceremonia Religiosa</div>
-          <div class="itv3-sub">Santuario de Guadalupe · Juárez S/N, Zona Centro</div>
+          <div class="itv3-aside">
+            <span class="itv3-time">8:00</span>
+            <span class="itv3-ampm">pm</span>
+          </div>
+          <div class="itv3-node"><div class="itv3-gem"></div></div>
+          <div class="itv3-body">
+            <div class="itv3-ev">Ceremonia Religiosa</div>
+            <div class="itv3-sub">Santuario de Guadalupe · Juárez S/N, Zona Centro</div>
+          </div>
         </div>
 
         <div class="itv3-item">
-          <div class="itv3-gem itv3-gem-alt"></div>
-          <div class="itv3-time">9:00 pm</div>
-          <div class="itv3-ev">Recepción</div>
-          <div class="itv3-sub">Quinta Urbana · Mexicali 305, Col. Buena Vista</div>
+          <div class="itv3-aside">
+            <span class="itv3-time">9:00</span>
+            <span class="itv3-ampm">pm</span>
+          </div>
+          <div class="itv3-node"><div class="itv3-gem itv3-gem-alt"></div></div>
+          <div class="itv3-body">
+            <div class="itv3-ev">Recepción</div>
+            <div class="itv3-sub">Quinta Urbana · Mexicali 305, Col. Buena Vista</div>
+          </div>
         </div>
 
         <div class="itv3-item">
-          <div class="itv3-gem itv3-gem-mid"></div>
-          <div class="itv3-time">9:30 pm</div>
-          <div class="itv3-ev">Entrada de Novios &amp; Vals</div>
-          <div class="itv3-sub">El primer vals como esposos</div>
+          <div class="itv3-aside">
+            <span class="itv3-time">9:30</span>
+            <span class="itv3-ampm">pm</span>
+          </div>
+          <div class="itv3-node"><div class="itv3-gem itv3-gem-mid"></div></div>
+          <div class="itv3-body">
+            <div class="itv3-ev">Entrada de Novios &amp; Vals</div>
+            <div class="itv3-sub">El primer vals como esposos</div>
+          </div>
         </div>
 
         <div class="itv3-item">
-          <div class="itv3-gem itv3-gem-alt"></div>
-          <div class="itv3-time">10:00 pm</div>
-          <div class="itv3-ev">Cena</div>
-          <div class="itv3-sub">Banquete en compañía de los seres queridos</div>
+          <div class="itv3-aside">
+            <span class="itv3-time">10:00</span>
+            <span class="itv3-ampm">pm</span>
+          </div>
+          <div class="itv3-node"><div class="itv3-gem itv3-gem-alt"></div></div>
+          <div class="itv3-body">
+            <div class="itv3-ev">Cena</div>
+            <div class="itv3-sub">Banquete en compañía de los seres queridos</div>
+          </div>
         </div>
 
         <div class="itv3-item">
-          <div class="itv3-gem"></div>
-          <div class="itv3-time">11:00 pm</div>
-          <div class="itv3-ev">Fiesta</div>
-          <div class="itv3-sub">Pista de baile y música para celebrar toda la noche</div>
+          <div class="itv3-aside">
+            <span class="itv3-time">11:00</span>
+            <span class="itv3-ampm">pm</span>
+          </div>
+          <div class="itv3-node"><div class="itv3-gem"></div></div>
+          <div class="itv3-body">
+            <div class="itv3-ev">Fiesta</div>
+            <div class="itv3-sub">Pista de baile y música para celebrar toda la noche</div>
+          </div>
         </div>
       </div>
     </section>
@@ -4086,6 +4132,7 @@
 
       var els = [
         item.querySelector('.itv3-time'),
+        item.querySelector('.itv3-ampm'),
         item.querySelector('.itv3-ev'),
         item.querySelector('.itv3-sub')
       ].filter(Boolean);
