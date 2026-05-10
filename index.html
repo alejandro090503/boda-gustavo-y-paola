@@ -86,107 +86,94 @@
     button{ cursor: pointer; border: none; background: none; font-family: inherit; }
 
     /* ══════════════════════════════════════════════════════
-       ENVELOPE — ANIMATED SVG OPENING
+       SPLASH SCREEN — MONOGRAMA ANIMADO
     ══════════════════════════════════════════════════════ */
 
     #envelope-screen {
       position: fixed; inset: 0; z-index: 10000; overflow: hidden; cursor: pointer; opacity: 0;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      background: radial-gradient(ellipse at 50% 55%, #3D1A1E 0%, #1A0D10 60%, #0D060A 100%);
+      background: radial-gradient(ellipse at 50% 42%, #2E1215 0%, #140A0C 55%, #080407 100%);
     }
+    /* Ambient glow corners */
     #envelope-screen::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
       background:
-        radial-gradient(circle at 15% 25%, rgba(169,104,0,.08) 0%, transparent 42%),
-        radial-gradient(circle at 85% 75%, rgba(131,17,0,.06) 0%, transparent 42%);
+        radial-gradient(ellipse at 20% 20%, rgba(169,104,0,.09) 0%, transparent 45%),
+        radial-gradient(ellipse at 80% 80%, rgba(131,17,0,.07) 0%, transparent 45%),
+        radial-gradient(ellipse at 78% 18%, rgba(102,97,0,.05) 0%, transparent 40%);
     }
 
-    /* Flash blanco global — vive FUERA del sobre para persistir tras su eliminación */
+    /* Flash blanco global */
     #env-flash {
       position: fixed; inset: 0; background: #fff; z-index: 9999;
       opacity: 0; pointer-events: none;
     }
 
-    /* Escena centrada — contenedor del sobre + hint */
+    /* Escena centrada */
     #env-scene {
       position: relative;
       display: flex; flex-direction: column; align-items: center;
-      width: min(320px, 86vw); gap: 36px;
+      gap: 44px; will-change: transform;
+    }
+
+    /* Bokeh dots (creados por JS) */
+    .env-bokeh {
+      position: absolute; border-radius: 50%;
+      pointer-events: none; will-change: transform;
+    }
+
+    /* Aro ornamental + texto central */
+    #env-ring-wrap {
+      position: relative;
+      width: 210px; height: 210px;
+      display: flex; align-items: center; justify-content: center;
       will-change: transform;
     }
-
-    /* Palco 3-D: establece la perspectiva para la solapa */
-    #env-wrap {
-      position: relative; width: 100%;
-      aspect-ratio: 340 / 210;
-      perspective: 900px; perspective-origin: 50% 0%;
+    @media (max-width: 360px) {
+      #env-ring-wrap { width: 180px; height: 180px; }
     }
 
-    /* SVG base del sobre (cuerpo + triángulos de pliegue) */
-    #env-body-svg {
-      position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
-      filter: drop-shadow(0 12px 40px rgba(0,0,0,.55)) drop-shadow(0 2px 8px rgba(0,0,0,.4));
+    #env-ring-svg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      overflow: visible;
     }
 
-    /* Tarjeta interior — se desliza al abrirse la solapa */
-    #env-letter {
-      position: absolute; left: 11%; right: 11%; top: 8%; bottom: 8%;
-      background: linear-gradient(155deg, #fefdf9 0%, #f7e8cc 100%);
-      border-radius: 2px; overflow: hidden;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
-      z-index: 2; opacity: 0;
-      will-change: transform, opacity;
-      box-shadow: inset 0 0 0 1px rgba(197,163,112,.25);
+    /* Texto dentro del aro */
+    #env-center-text {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0;
     }
 
-    /* Solapa superior — gira hacia atrás al tocar */
-    #env-flap {
-      position: absolute; top: 0; left: 0; right: 0; height: 50%;
-      transform-origin: top center; transform-style: preserve-3d;
-      backface-visibility: hidden; -webkit-backface-visibility: hidden;
-      z-index: 5;
-    }
-    #env-flap > svg { width: 100%; height: 100%; display: block; }
-
-    /* Sello de cera sobre la solapa */
-    .env-seal {
-      position: absolute; bottom: -22%; left: 50%; transform: translateX(-50%);
-      width: min(54px, 16vw); height: min(54px, 16vw); z-index: 10;
-      will-change: transform;
-      filter: drop-shadow(0 2px 8px rgba(131,17,0,.65));
-    }
-    .env-seal svg { width: 100%; height: 100%; }
-
-    /* Tipografía de la tarjeta interior */
-    .env-letter-tag {
-      font-family: var(--sans); font-size: 8px; letter-spacing: 3.5px; text-transform: uppercase;
-      color: rgba(169,104,0,.65); margin: 0; line-height: 1;
-    }
-    .env-letter-names {
-      font-family: var(--script); font-size: clamp(17px, 5.2vw, 24px);
-      color: #5C2800; line-height: 1.25; text-align: center; margin: 0;
-    }
-    .env-letter-amp { font-size: .78em; color: #831100; display: block; line-height: 1.1; }
-    .env-letter-date {
-      font-family: var(--sans); font-size: 9px; letter-spacing: 3px;
-      color: rgba(30,18,0,.48); margin: 0;
-    }
-    .env-letter-deco {
-      width: 36px; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(169,104,0,.5), transparent);
+    .env-monogram {
+      font-family: var(--script);
+      font-size: clamp(48px, 14vw, 62px);
+      color: var(--gold);
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(169,104,0,.45), 0 0 80px rgba(169,104,0,.15);
     }
 
-    /* Pill "Toca para abrir" — elemento de flujo dentro de #env-scene */
+    .env-splash-rule {
+      width: 40px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(169,104,0,.65), transparent);
+    }
+
+    .env-splash-date {
+      font-family: var(--sans); font-size: 11px; letter-spacing: 3.5px;
+      text-transform: uppercase; color: rgba(212,197,178,.82); margin: 0;
+    }
+
+    /* Pill "Toca para abrir" */
     .envelope-hint {
       position: relative;
       font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 4px;
       text-transform: uppercase; color: #FAF0EE; opacity: 0; cursor: pointer; white-space: nowrap;
-      margin: 0; padding: 12px 22px 12px 26px;
+      margin: 0; padding: 12px 24px;
       background: rgba(92,30,40,.82);
-      border: 1px solid rgba(232,184,189,.5); border-radius: 100px;
+      border: 1px solid rgba(232,184,189,.45); border-radius: 100px;
       backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
       box-shadow: 0 4px 14px rgba(0,0,0,.35), 0 12px 32px -12px rgba(92,30,40,.6);
-      animation: hint-breathe 2.4s ease-in-out 1.6s infinite;
+      animation: hint-breathe 2.6s ease-in-out 2.4s infinite;
       will-change: transform, box-shadow;
     }
 
@@ -196,11 +183,11 @@
         box-shadow: 0 4px 14px rgba(0,0,0,.35), 0 12px 32px -12px rgba(92,30,40,.6);
       }
       50% {
-        transform: scale(1.07);
+        transform: scale(1.06);
         box-shadow:
           0 6px 18px rgba(0,0,0,.4),
           0 16px 40px -12px rgba(139,58,74,.8),
-          0 0 24px rgba(232,184,189,.35);
+          0 0 22px rgba(232,184,189,.3);
       }
     }
 
@@ -839,9 +826,10 @@
     ══════════════════════════════════════════════════════ */
     #galeria {
       background:
-        radial-gradient(ellipse at 15% 85%, rgba(169,104,0,.07) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 15%, rgba(131,17,0,.05) 0%, transparent 50%),
-        linear-gradient(180deg, var(--bg) 0%, #f5e9d6 100%);
+        radial-gradient(ellipse at 18% 82%, rgba(169,104,0,.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 82% 18%, rgba(131,17,0,.09) 0%, transparent 45%),
+        radial-gradient(ellipse at 52% 56%, rgba(102,97,0,.06) 0%, transparent 52%),
+        linear-gradient(158deg, #EDE0C4 0%, #E6D5AB 45%, #EDDAB0 75%, #EFE2C8 100%);
       padding: 80px 0;
     }
 
@@ -2627,48 +2615,72 @@
     #galeria { text-align: center; }
     .gfall-wrap {
       display: flex; flex-direction: column; align-items: center;
-      gap: 44px; margin-top: 52px;
-      padding: 24px 16px 24px;
+      gap: 54px; margin-top: 52px;
+      padding: 28px 20px 40px;
     }
     .gfall-card {
       position: relative;
-      width: min(278px, 86vw);
-      background: #fefdf9;
-      padding: 13px 13px 60px;
+      width: min(272px, 84vw);
+      background: #FEFCF5;
+      padding: 12px 12px 68px;
       box-shadow:
-        0 2px 6px rgba(30,18,0,.05),
-        0 14px 44px rgba(30,18,0,.18),
-        0 36px 64px rgba(30,18,0,.06);
+        0 1px 3px rgba(30,18,0,.04),
+        0 6px 18px rgba(30,18,0,.10),
+        0 22px 52px rgba(30,18,0,.15),
+        0 48px 84px rgba(30,18,0,.07);
       opacity: 0;
       will-change: transform, opacity;
-      border: 1px solid rgba(220,200,170,.35);
+      border: 1px solid rgba(220,198,162,.28);
+    }
+    /* vignette cálido sobre la foto */
+    .gfall-card::after {
+      content: '';
+      position: absolute;
+      inset: 12px 12px 68px;
+      box-shadow:
+        inset 0 0 30px rgba(131,17,0,.07),
+        inset 0 0 10px rgba(169,104,0,.05);
+      pointer-events: none;
+      z-index: 2;
     }
     /* Cinta adhesiva decorativa */
     .gfall-card::before {
       content: '';
       position: absolute;
-      top: -17px; left: 50%;
-      transform: translateX(-50%) rotate(-2deg);
-      width: 56px; height: 30px;
-      background: rgba(254,228,168,0.60);
-      border-left: 1px solid rgba(169,104,0,.14);
-      border-right: 1px solid rgba(169,104,0,.14);
-      z-index: 2;
+      top: -20px; left: 50%;
+      transform: translateX(-50%) rotate(-2.5deg);
+      width: 64px; height: 26px;
+      background: linear-gradient(180deg, rgba(254,228,168,.82) 0%, rgba(246,212,132,.68) 100%);
+      border: 1px solid rgba(169,104,0,.20);
+      box-shadow: 0 2px 8px rgba(30,18,0,.12);
+      z-index: 3;
     }
-    .gfall-card:nth-child(2)::before { transform: translateX(-50%) rotate(2.8deg); }
-    .gfall-card:nth-child(3)::before { transform: translateX(-50%) rotate(-1deg); }
-    .gfall-card:nth-child(1) { --rot: -4deg; }
-    .gfall-card:nth-child(2) { --rot:  3.5deg; }
-    .gfall-card:nth-child(3) { --rot: -2.5deg; }
+    .gfall-card:nth-child(1)::before { left: 44%; transform: translateX(-50%) rotate(-3.2deg); }
+    .gfall-card:nth-child(2)::before { left: 56%; transform: translateX(-50%) rotate(2.8deg); }
+    .gfall-card:nth-child(3)::before { left: 48%; transform: translateX(-50%) rotate(-1.6deg); }
+    .gfall-card:nth-child(4)::before { left: 54%; transform: translateX(-50%) rotate(3.5deg); }
+    .gfall-card:nth-child(5)::before { left: 46%; transform: translateX(-50%) rotate(-2.2deg); }
     .gfall-img {
-      width: 100%; height: 290px; object-fit: cover;
-      object-position: center 20%; display: block;
-      filter: sepia(8%) saturate(1.10) brightness(1.01);
+      width: 100%; height: 278px; object-fit: cover;
+      object-position: center 22%; display: block;
+      filter: sepia(11%) saturate(1.08) brightness(1.02) contrast(1.01);
     }
+    .gfall-card:nth-child(2) .gfall-img { object-position: center 35%; }
+    .gfall-card:nth-child(3) .gfall-img { object-position: center 15%; }
+    .gfall-card:nth-child(4) .gfall-img { object-position: center 40%; }
+    .gfall-card:nth-child(5) .gfall-img { object-position: center 28%; }
     .gfall-caption {
-      font-family: var(--script); font-size: 24px;
-      color: var(--gold); text-align: center;
-      margin-top: 10px; line-height: 1; letter-spacing: .02em;
+      font-family: var(--script); font-size: 26px;
+      color: #5C3D0A; text-align: center;
+      margin-top: 14px; line-height: 1; letter-spacing: .02em;
+      text-shadow: 0 1px 3px rgba(92,61,10,.12);
+    }
+    .gfall-caption::after {
+      content: '';
+      display: block;
+      width: 44%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(169,104,0,.40), transparent);
+      margin: 8px auto 0;
     }
 
     /* ── ENVELOPE / LLUVIA DE SOBRES ───────────── */
@@ -2739,85 +2751,50 @@
   <div id="falling-petals" aria-hidden="true"></div>
 
   <!-- ════════════════════════════════════
-       ENVELOPE OPENING SCREEN — ANIMATED SVG
+       SPLASH SCREEN — MONOGRAMA ANIMADO
   ════════════════════════════════════ -->
   <div id="envelope-screen" role="button" aria-label="Toca para abrir tu invitación">
     <div id="env-scene">
-      <div id="env-wrap">
 
-        <!-- Cuerpo del sobre: base + triángulos de pliegue -->
-        <svg id="env-body-svg" viewBox="0 0 340 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Aro ornamental con monograma -->
+      <div id="env-ring-wrap">
+        <svg id="env-ring-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
-            <linearGradient id="env-lg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#F5E8D2"/>
-              <stop offset="100%" stop-color="#EDD5B0"/>
+            <linearGradient id="rg-gold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%"   stop-color="#fee4a8"/>
+              <stop offset="40%"  stop-color="#a96800"/>
+              <stop offset="100%" stop-color="#fee4a8"/>
             </linearGradient>
+            <filter id="rg-glow">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
           </defs>
-          <!-- Base crema -->
-          <rect width="340" height="210" fill="url(#env-lg)" rx="3"/>
-          <!-- Pliegue izquierdo -->
-          <polygon points="0,0 170,105 0,210" fill="#E8D5B0" opacity="0.6"/>
-          <!-- Pliegue derecho -->
-          <polygon points="340,0 170,105 340,210" fill="#E8D5B0" opacity="0.6"/>
-          <!-- Pliegue inferior -->
-          <polygon points="0,210 170,116 340,210" fill="#DCC89A" opacity="0.75"/>
-          <!-- Líneas de pliegue -->
-          <line x1="0" y1="0" x2="170" y2="105" stroke="#C5A370" stroke-width="0.7" opacity="0.4"/>
-          <line x1="340" y1="0" x2="170" y2="105" stroke="#C5A370" stroke-width="0.7" opacity="0.4"/>
-          <line x1="0" y1="210" x2="170" y2="116" stroke="#C5A370" stroke-width="0.7" opacity="0.4"/>
-          <line x1="340" y1="210" x2="170" y2="116" stroke="#C5A370" stroke-width="0.7" opacity="0.4"/>
-          <!-- Borde decorativo punteado -->
-          <rect x="8" y="8" width="324" height="194" fill="none" rx="2"
-                stroke="#C5A370" stroke-width="0.7" stroke-dasharray="5,7" opacity="0.32"/>
+          <!-- Aro exterior — se dibuja con stroke-dashoffset -->
+          <circle id="env-circle-outer" cx="100" cy="100" r="92"
+                  fill="none" stroke="url(#rg-gold)" stroke-width="1.2"
+                  stroke-dasharray="578" stroke-dashoffset="578"
+                  filter="url(#rg-glow)"/>
+          <!-- Aro interior punteado -->
+          <circle id="env-circle-inner" cx="100" cy="100" r="84"
+                  fill="none" stroke="rgba(169,104,0,.28)" stroke-width="0.6"
+                  stroke-dasharray="3,9" opacity="0"/>
+          <!-- Diamantes cardinales (N/E/S/W) -->
+          <g id="env-diamonds" opacity="0">
+            <rect x="97.5" y="4"   width="5" height="5" transform="rotate(45,100,6.5)"   fill="#fee4a8"/>
+            <rect x="97.5" y="190" width="5" height="5" transform="rotate(45,100,192.5)" fill="#fee4a8"/>
+            <rect x="4"   y="97.5" width="5" height="5" transform="rotate(45,6.5,100)"   fill="#fee4a8"/>
+            <rect x="190" y="97.5" width="5" height="5" transform="rotate(45,192.5,100)" fill="#fee4a8"/>
+          </g>
         </svg>
 
-        <!-- Tarjeta interior — se revela cuando la solapa se abre -->
-        <div id="env-letter">
-          <div class="env-letter-deco"></div>
-          <p class="env-letter-tag">Nos casamos</p>
-          <p class="env-letter-names">
-            Nelly Paola<br>
-            <span class="env-letter-amp">&amp;</span>
-            Gustavo Alonso
-          </p>
-          <div class="env-letter-deco"></div>
-          <p class="env-letter-date">07 · 11 · 2026</p>
+        <!-- Texto central -->
+        <div id="env-center-text">
+          <p class="env-monogram">G &amp; P</p>
+          <div class="env-splash-rule"></div>
+          <p class="env-splash-date">07 · 11 · 2026</p>
         </div>
-
-        <!-- Solapa superior — gira hacia atrás al tocar -->
-        <div id="env-flap">
-          <svg viewBox="0 0 340 105" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="flap-lg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#F2E2C0"/>
-                <stop offset="100%" stop-color="#E4CC92"/>
-              </linearGradient>
-            </defs>
-            <polygon points="0,0 340,0 170,105" fill="url(#flap-lg)"/>
-            <line x1="0" y1="0.5" x2="340" y2="0.5" stroke="#C5A370" stroke-width="1" opacity="0.5"/>
-          </svg>
-          <!-- Sello de cera -->
-          <div class="env-seal" id="env-seal">
-            <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs>
-                <radialGradient id="seal-rg" cx="40%" cy="35%">
-                  <stop offset="0%" stop-color="#C0393B"/>
-                  <stop offset="100%" stop-color="#831100"/>
-                </radialGradient>
-              </defs>
-              <circle cx="26" cy="26" r="24" fill="url(#seal-rg)" stroke="#6B0D00" stroke-width="1"/>
-              <circle cx="26" cy="26" r="20" fill="none" stroke="rgba(255,220,180,.32)" stroke-width="0.8"/>
-              <text x="26" y="22" text-anchor="middle"
-                    font-family="Georgia,serif" font-size="8" font-style="italic"
-                    fill="#fee4a8" letter-spacing="1">G &amp; P</text>
-              <text x="26" y="34" text-anchor="middle"
-                    font-family="Georgia,serif" font-size="5"
-                    fill="rgba(254,228,168,.65)" letter-spacing="2">2026</text>
-            </svg>
-          </div>
-        </div>
-
-      </div><!-- /#env-wrap -->
+      </div><!-- /#env-ring-wrap -->
 
       <!-- Pill de acción -->
       <p class="envelope-hint" id="env-hint">Toca para abrir</p>
@@ -3645,6 +3622,16 @@
             src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288668512-0.jpeg">
           <p class="gfall-caption">Por siempre ✦</p>
         </div>
+        <div class="gfall-card" id="gfCard4">
+          <img class="gfall-img" loading="lazy" decoding="async" alt="Gustavo y Paola"
+            src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288529465-0.jpeg">
+          <p class="gfall-caption">Para toda la vida</p>
+        </div>
+        <div class="gfall-card" id="gfCard5">
+          <img class="gfall-img" loading="lazy" decoding="async" alt="Gustavo y Paola"
+            src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288505754-1.jpeg">
+          <p class="gfall-caption">07 · 11 · 2026</p>
+        </div>
       </div>
     </section>
 
@@ -3791,36 +3778,87 @@
      ENVELOPE ANIMATION — IMAGEN + VIDEO IA
   ══════════════════════════════════════════════════ */
   (function () {
-    var envScreen = document.getElementById('envelope-screen');
-    var envFlash  = document.getElementById('env-flash');
-    var envScene  = document.getElementById('env-scene');
-    var envFlap   = document.getElementById('env-flap');
-    var envLetter = document.getElementById('env-letter');
-    var envSeal   = document.getElementById('env-seal');
-    var hint      = document.getElementById('env-hint');
-    var opened    = false;
+    var envScreen    = document.getElementById('envelope-screen');
+    var envFlash     = document.getElementById('env-flash');
+    var envScene     = document.getElementById('env-scene');
+    var envRingWrap  = document.getElementById('env-ring-wrap');
+    var envCenterTxt = document.getElementById('env-center-text');
+    var hint         = document.getElementById('env-hint');
+    var opened       = false;
 
-    // Estado inicial GSAP de la tarjeta (evitar conflicto con CSS transform)
-    gsap.set(envLetter, { y: 18, opacity: 0 });
-    gsap.set(envFlap,   { transformOrigin: 'top center' });
-
-    // ── Fade-in del sobre ──
-    gsap.to(envScreen, { opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.3 });
-    gsap.to(hint,      { opacity: 1, duration: 0.9, ease: 'power2.out', delay: 1.1 });
-
-    // ── Flotación idle suave ──
-    gsap.to(envScene, {
-      y: -9, duration: 2.6, yoyo: true, repeat: -1,
-      ease: 'power1.inOut', delay: 1.4
+    // ── Bokeh dots: creados dinámicamente para posicionado aleatorio ──
+    var bokehCfg = [
+      { x: 11,  y: 14,  s: 5,  o: .32, c: '169,104,0'  },
+      { x: 84,  y: 22,  s: 3,  o: .22, c: '169,104,0'  },
+      { x: 6,   y: 68,  s: 7,  o: .18, c: '131,17,0'   },
+      { x: 91,  y: 62,  s: 4,  o: .28, c: '169,104,0'  },
+      { x: 52,  y: 8,   s: 3,  o: .35, c: '212,197,178' },
+      { x: 28,  y: 83,  s: 5,  o: .2,  c: '131,17,0'   },
+      { x: 76,  y: 80,  s: 4,  o: .25, c: '169,104,0'  },
+      { x: 17,  y: 48,  s: 3,  o: .16, c: '212,197,178' },
+      { x: 64,  y: 13,  s: 5,  o: .22, c: '169,104,0'  },
+      { x: 42,  y: 91,  s: 3,  o: .18, c: '131,17,0'   },
+      { x: 93,  y: 40,  s: 4,  o: .2,  c: '102,97,0'   },
+      { x: 5,   y: 33,  s: 3,  o: .14, c: '169,104,0'  },
+    ];
+    bokehCfg.forEach(function (b) {
+      var d = document.createElement('div');
+      d.className = 'env-bokeh';
+      d.style.cssText = 'left:' + b.x + '%;top:' + b.y + '%;width:' + b.s + 'px;height:' + b.s + 'px;'
+        + 'background:rgba(' + b.c + ',' + b.o + ');'
+        + 'box-shadow:0 0 ' + (b.s * 3) + 'px rgba(' + b.c + ',' + (b.o * .6) + ')';
+      envScreen.insertBefore(d, envScreen.firstChild);
+      gsap.to(d, {
+        y: -(10 + Math.random() * 14),
+        x: (Math.random() - .5) * 7,
+        duration: 2.8 + Math.random() * 2.2,
+        yoyo: true, repeat: -1,
+        ease: 'power1.inOut',
+        delay: Math.random() * 2.5
+      });
     });
 
-    // ── Pulso del sello de cera ──
-    gsap.to(envSeal, {
-      scale: 1.06, duration: 1.9, yoyo: true, repeat: -1,
-      ease: 'sine.inOut', delay: 1.7
+    // ── Fade-in de la pantalla ──
+    gsap.to(envScreen, { opacity: 1, duration: 1.1, ease: 'power2.out', delay: 0.2 });
+
+    // ── El aro se dibuja (stroke-dashoffset 578 → 0) ──
+    gsap.to('#env-circle-outer', {
+      attr: { 'stroke-dashoffset': 0 },
+      duration: 1.9, ease: 'power2.out', delay: 0.5
     });
 
-    // ── Monta la invitación detrás del flash (invisible para el usuario) ──
+    // ── Aro interior punteado aparece ──
+    gsap.to('#env-circle-inner', { opacity: 1, duration: 0.9, delay: 1.9 });
+
+    // ── Diamantes cardinales: pop in en stagger ──
+    gsap.fromTo('#env-diamonds',
+      { opacity: 0, scale: 0 },
+      { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(2.5)', delay: 1.7,
+        transformOrigin: 'center center' }
+    );
+
+    // ── Monograma + fecha aparecen ──
+    gsap.fromTo(envCenterTxt,
+      { opacity: 0, scale: .84 },
+      { opacity: 1, scale: 1, duration: 0.75, ease: 'power2.out', delay: 1.3 }
+    );
+
+    // ── Pill aparece ──
+    gsap.to(hint, { opacity: 1, duration: 0.8, ease: 'power2.out', delay: 2.3 });
+
+    // ── Flotación idle del aro ──
+    gsap.to(envRingWrap, {
+      y: -8, duration: 3, yoyo: true, repeat: -1,
+      ease: 'power1.inOut', delay: 2.8
+    });
+
+    // ── Pulso de brillo en el aro ──
+    gsap.to('#env-circle-outer', {
+      opacity: 0.65, duration: 2.4, yoyo: true, repeat: -1,
+      ease: 'sine.inOut', delay: 2.5
+    });
+
+    // ── prepareInvitation / revealInvitation ──
     var invitationReady = false;
     function prepareInvitation() {
       if (invitationReady) return;
@@ -3828,16 +3866,9 @@
       envScreen.style.display = 'none';
       var mainEl = document.getElementById('main-content');
       if (mainEl) mainEl.style.visibility = 'visible';
-      heroAnim();
-      spawnPetals();
-      setupPetalsVisibility();
-      setupBgCrossfade();
-      scrollAnims();
-      initEnvelope();
-      startCountdown();
+      heroAnim(); spawnPetals(); setupPetalsVisibility();
+      setupBgCrossfade(); scrollAnims(); initEnvelope(); startCountdown();
     }
-
-    // ── Disuelve el flash revelando la invitación ──
     function revealInvitation() {
       prepareInvitation();
       gsap.to(envFlash, {
@@ -3846,51 +3877,37 @@
       });
     }
 
-    // ── Animación de apertura del sobre ──
-    function openEnvelope() {
+    // ── Animación de apertura al tocar ──
+    function openSplash() {
       if (opened) return;
       opened = true;
-
-      gsap.killTweensOf(envScene);
-      gsap.killTweensOf(envSeal);
+      gsap.killTweensOf(envRingWrap);
+      gsap.killTweensOf('#env-circle-outer');
 
       var tl = gsap.timeline();
 
-      // 1. Hint desaparece
-      tl.to(hint, { opacity: 0, duration: 0.25 }, 0);
+      // Hint desaparece
+      tl.to(hint, { opacity: 0, duration: 0.2 }, 0);
 
-      // 2. El sobre sube ligeramente (anticipación)
-      tl.to(envScene, { y: -18, duration: 0.38, ease: 'power2.out' }, 0.05);
+      // El aro crece ligeramente (push in)
+      tl.to(envRingWrap, { scale: 1.08, duration: 0.35, ease: 'power2.out' }, 0);
 
-      // 3. Sello se disuelve con pequeño encogimiento
-      tl.to(envSeal, { opacity: 0, scale: 0.72, duration: 0.42, ease: 'power2.in' }, 0.08);
+      // Luego el aro se expande y desvanece (portal que se abre)
+      tl.to(envScene, {
+        scale: 1.22, opacity: 0, duration: 0.6, ease: 'power3.in'
+      }, 0.28);
 
-      // 4. La solapa se abre girando hacia atrás sobre su borde superior
-      tl.to(envFlap, {
-        rotationX: -168, duration: 1.1,
-        ease: 'power2.inOut'
-      }, 0.32);
-
-      // 5. La tarjeta interior sube desde el sobre
-      tl.to(envLetter, {
-        opacity: 1, y: -22, duration: 0.82,
-        ease: 'back.out(1.25)'
-      }, 0.78);
-
-      // 6. Pausa para que el usuario aprecie la tarjeta
-      tl.to({}, { duration: 0.85 });
-
-      // 7. Flash blanco → reveal de la invitación
+      // Flash blanco cubre y revela la invitación
       tl.to(envFlash, {
-        opacity: 1, duration: 0.85, ease: 'power2.in',
+        opacity: 1, duration: 0.55, ease: 'power2.in',
         onComplete: revealInvitation
-      });
+      }, 0.52);
     }
 
-    envScreen.addEventListener('click', openEnvelope);
+    envScreen.addEventListener('click', openSplash);
     envScreen.addEventListener('touchstart', function (e) {
       e.preventDefault();
-      openEnvelope();
+      openSplash();
     }, { passive: false });
   }());
 
@@ -4127,32 +4144,33 @@
     var cards = document.querySelectorAll('.gfall-card');
     if (!cards.length) return;
 
-    var rotations = [-4, 3.5, -2.5];
-    var offsets   = [-28, 32, -16];
+    var rotations = [-5, 4.5, -3.5, 4, -2.5];
+    var offsets   = [-50, 46, -30, 42, -22];
 
     cards.forEach(function (card, i) {
       var finalRot = rotations[i] || 0;
       var finalX   = offsets[i]   || 0;
+      var startRot = finalRot + (finalRot > 0 ? 22 : -22);
 
-      gsap.set(card, { rotation: finalRot + (finalRot > 0 ? 18 : -18), x: finalX, y: -320, opacity: 0, transformOrigin: 'center top' });
+      gsap.set(card, { rotation: startRot, x: finalX, y: -420, opacity: 0, transformOrigin: 'center top' });
 
       gsap.to(card, {
         y: 0, opacity: 1,
         rotation: finalRot,
         x: finalX,
-        duration: 1.15,
-        ease: 'back.out(1.4)',
-        delay: 0.22 * i,
+        duration: 1.2,
+        ease: 'back.out(1.6)',
+        delay: 0.3 * i,
         scrollTrigger: {
           trigger: '#gfallWrap',
-          start: 'top 78%',
+          start: 'top 80%',
           once: true
         },
         onComplete: function () {
-          /* pequeño bamboleo al posarse */
+          /* bamboleo suave al posarse */
           gsap.to(card, {
-            rotation: finalRot + (i % 2 === 0 ? 1.2 : -1.2),
-            duration: 0.22, ease: 'power1.inOut', yoyo: true, repeat: 2,
+            rotation: finalRot + (i % 2 === 0 ? 1.5 : -1.5),
+            duration: 0.20, ease: 'power1.inOut', yoyo: true, repeat: 3,
             onComplete: function () {
               gsap.set(card, { rotation: finalRot });
             }
