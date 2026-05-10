@@ -2426,6 +2426,75 @@
       #envelope-screen { display: none !important; }
       #main-content { visibility: visible !important; }
     }
+    /* ══════════════════════════════════════════════════════
+       ITINERARIO V3 — Centered Glowing Timeline (de boda-cristal-y-humberto)
+    ══════════════════════════════════════════════════════ */
+    .itv3 {
+      position: relative;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 10px 0 10px;
+      margin-top: 44px;
+    }
+    .itv3-track {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      top: 0; bottom: 0; width: 1px; z-index: 0;
+      background: linear-gradient(to bottom,
+        transparent 0%,
+        rgba(169,104,0,0.35) 10%,
+        rgba(131,17,0,0.22) 50%,
+        rgba(169,104,0,0.30) 85%,
+        transparent 100%);
+    }
+    .itv3-glow {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      top: 0; width: 5px; height: 110px;
+      background: linear-gradient(to bottom,
+        transparent,
+        rgba(169,104,0,0.55) 20%,
+        rgba(169,104,0,0.90) 50%,
+        rgba(169,104,0,0.55) 80%,
+        transparent);
+      filter: blur(3px); border-radius: 6px;
+      z-index: 1; pointer-events: none;
+    }
+    .itv3-item {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 30px 16px 4px; width: 100%;
+    }
+    .itv3-gem {
+      width: 9px; height: 9px;
+      background: linear-gradient(135deg, #fee4a8 30%, #5C0800);
+      transform: rotate(45deg); border-radius: 2px;
+      box-shadow: 0 0 0 4px rgba(169,104,0,0.12), 0 0 18px rgba(169,104,0,0.5);
+      margin-bottom: 18px; flex-shrink: 0;
+    }
+    .itv3-gem-alt {
+      background: linear-gradient(135deg, #99244f 30%, #3d0010);
+      box-shadow: 0 0 0 4px rgba(153,36,79,0.14), 0 0 18px rgba(153,36,79,0.45);
+    }
+    .itv3-gem-mid {
+      background: linear-gradient(135deg, #b8b000 30%, #3a3a00);
+      box-shadow: 0 0 0 4px rgba(102,97,0,0.12), 0 0 18px rgba(102,97,0,0.4);
+    }
+    .itv3-time {
+      font-family: var(--serif); font-size: 36px; font-weight: 300;
+      letter-spacing: 6px; color: var(--text); line-height: 1; margin-bottom: 6px;
+      text-indent: 6px;
+    }
+    .itv3-ev {
+      font-family: var(--serif); font-style: italic;
+      font-size: 14px; color: rgba(30,18,0,0.55);
+      letter-spacing: 3px; text-transform: uppercase; line-height: 1.5;
+      text-indent: 3px;
+    }
+    .itv3-sub {
+      font-family: var(--serif); font-style: italic;
+      font-size: 12px; color: var(--gold); opacity: .8;
+      letter-spacing: 1px; margin-top: 4px; line-height: 1.4;
+    }
+    .itv3-item:last-child { padding-bottom: 10px; }
+
   </style>
 </head>
 <body>
@@ -2778,113 +2847,43 @@
       </div>
       <p class="subtitle fu" style="text-align:center;">Una noche que jamás olvidarán</p>
 
-      <div class="itin-container" role="list">
-        <div class="itin-line" id="itin-line" aria-hidden="true"></div>
+      <div class="itv3">
+        <div class="itv3-track"></div>
+        <div class="itv3-glow" id="itvGlow"></div>
 
-        <div class="itin-card" role="listitem">
-          <div class="itin-card-shine"></div>
-          <svg class="itin-corner-rose" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
-            <circle cx="11" cy="11" r="2.2"/>
-            <circle cx="11" cy="11" r="4.2" opacity=".7"/>
-            <path d="M4 11 Q6 5 11 7" stroke-linecap="round"/>
-            <path d="M18 11 Q16 5 11 7" stroke-linecap="round"/>
-            <path d="M4 11 Q6 17 11 15" stroke-linecap="round"/>
-            <path d="M18 11 Q16 17 11 15" stroke-linecap="round"/>
-          </svg>
-          <div class="itin-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
-            </svg>
-          </div>
-          <time class="itin-time" datetime="2026-11-07T20:00">8:00 pm</time>
-          <p class="itin-event">Ceremonia Religiosa</p>
-          <p class="itin-desc">Santuario de Guadalupe · Juárez S/N, Zona Centro · Piedras Negras</p>
+        <div class="itv3-item">
+          <div class="itv3-gem"></div>
+          <div class="itv3-time">8:00 pm</div>
+          <div class="itv3-ev">Ceremonia Religiosa</div>
+          <div class="itv3-sub">Santuario de Guadalupe · Juárez S/N, Zona Centro</div>
         </div>
 
-        <div class="itin-card" role="listitem">
-          <div class="itin-card-shine"></div>
-          <svg class="itin-corner-rose" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
-            <circle cx="11" cy="11" r="2.2"/>
-            <circle cx="11" cy="11" r="4.2" opacity=".7"/>
-            <path d="M4 11 Q6 5 11 7" stroke-linecap="round"/>
-            <path d="M18 11 Q16 5 11 7" stroke-linecap="round"/>
-            <path d="M4 11 Q6 17 11 15" stroke-linecap="round"/>
-            <path d="M18 11 Q16 17 11 15" stroke-linecap="round"/>
-          </svg>
-          <div class="itin-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-          </div>
-          <time class="itin-time" datetime="2026-11-07T21:00">9:00 pm</time>
-          <p class="itin-event">Recepción</p>
-          <p class="itin-desc">Quinta Urbana · Mexicali 305, Col. Buena Vista · Piedras Negras</p>
+        <div class="itv3-item">
+          <div class="itv3-gem itv3-gem-alt"></div>
+          <div class="itv3-time">9:00 pm</div>
+          <div class="itv3-ev">Recepción</div>
+          <div class="itv3-sub">Quinta Urbana · Mexicali 305, Col. Buena Vista</div>
         </div>
 
-        <div class="itin-card" role="listitem">
-          <div class="itin-card-shine"></div>
-          <svg class="itin-corner-rose" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
-            <circle cx="11" cy="11" r="2.2"/>
-            <circle cx="11" cy="11" r="4.2" opacity=".7"/>
-            <path d="M4 11 Q6 5 11 7" stroke-linecap="round"/>
-            <path d="M18 11 Q16 5 11 7" stroke-linecap="round"/>
-            <path d="M4 11 Q6 17 11 15" stroke-linecap="round"/>
-            <path d="M18 11 Q16 17 11 15" stroke-linecap="round"/>
-          </svg>
-          <div class="itin-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
-            </svg>
-          </div>
-          <time class="itin-time" datetime="2026-11-07T21:30">9:30 pm</time>
-          <p class="itin-event">Entrada de Novios &amp; Vals</p>
-          <p class="itin-desc">El momento más esperado: la entrada de los novios y su primer vals como esposos</p>
+        <div class="itv3-item">
+          <div class="itv3-gem itv3-gem-mid"></div>
+          <div class="itv3-time">9:30 pm</div>
+          <div class="itv3-ev">Entrada de Novios &amp; Vals</div>
+          <div class="itv3-sub">El primer vals como esposos</div>
         </div>
 
-        <div class="itin-card" role="listitem">
-          <div class="itin-card-shine"></div>
-          <svg class="itin-corner-rose" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
-            <circle cx="11" cy="11" r="2.2"/>
-            <circle cx="11" cy="11" r="4.2" opacity=".7"/>
-            <path d="M4 11 Q6 5 11 7" stroke-linecap="round"/>
-            <path d="M18 11 Q16 5 11 7" stroke-linecap="round"/>
-            <path d="M4 11 Q6 17 11 15" stroke-linecap="round"/>
-            <path d="M18 11 Q16 17 11 15" stroke-linecap="round"/>
-          </svg>
-          <div class="itin-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
-              <line x1="6" y1="1" x2="6" y2="4"/>
-              <line x1="10" y1="1" x2="10" y2="4"/>
-              <line x1="14" y1="1" x2="14" y2="4"/>
-            </svg>
-          </div>
-          <time class="itin-time" datetime="2026-11-07T22:00">10:00 pm</time>
-          <p class="itin-event">Cena</p>
-          <p class="itin-desc">Disfruta de una deliciosa cena en compañía de los seres queridos</p>
+        <div class="itv3-item">
+          <div class="itv3-gem itv3-gem-alt"></div>
+          <div class="itv3-time">10:00 pm</div>
+          <div class="itv3-ev">Cena</div>
+          <div class="itv3-sub">Banquete en compañía de los seres queridos</div>
         </div>
 
-        <div class="itin-card" role="listitem">
-          <div class="itin-card-shine"></div>
-          <svg class="itin-corner-rose" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
-            <circle cx="11" cy="11" r="2.2"/>
-            <circle cx="11" cy="11" r="4.2" opacity=".7"/>
-            <path d="M4 11 Q6 5 11 7" stroke-linecap="round"/>
-            <path d="M18 11 Q16 5 11 7" stroke-linecap="round"/>
-            <path d="M4 11 Q6 17 11 15" stroke-linecap="round"/>
-            <path d="M18 11 Q16 17 11 15" stroke-linecap="round"/>
-          </svg>
-          <div class="itin-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <circle cx="5.5" cy="17.5" r="2.5"/>
-              <circle cx="17.5" cy="15.5" r="2.5"/>
-              <path d="M8 17V5l12-2v10"/>
-            </svg>
-          </div>
-          <time class="itin-time" datetime="2026-11-07T23:00">11:00 pm</time>
-          <p class="itin-event">Fiesta</p>
-          <p class="itin-desc">Pista de baile y música para celebrar toda la noche junto a Gustavo &amp; Paola</p>
+        <div class="itv3-item">
+          <div class="itv3-gem"></div>
+          <div class="itv3-time">11:00 pm</div>
+          <div class="itv3-ev">Fiesta</div>
+          <div class="itv3-sub">Pista de baile y música para celebrar toda la noche</div>
         </div>
       </div>
     </section>
@@ -3658,6 +3657,61 @@
   }
 
 
+  /* ── initItinerary (itv3) ──────────────────────── */
+  function initItinerary() {
+    var glow    = document.getElementById('itvGlow');
+    var section = document.getElementById('itinerario');
+    var items   = document.querySelectorAll('.itv3-item');
+    if (!glow || !section) return;
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 58%',
+      end: 'bottom 42%',
+      scrub: 1.8,
+      onUpdate: function (self) {
+        var track = section.querySelector('.itv3-track');
+        if (!track) return;
+        var h = track.offsetHeight - 55;
+        glow.style.top = (self.progress * h) + 'px';
+      }
+    });
+
+    items.forEach(function (item) {
+      var gem   = item.querySelector('.itv3-gem');
+      var isAlt = gem.classList.contains('itv3-gem-alt');
+      var isMid = gem.classList.contains('itv3-gem-mid');
+      var gc    = isAlt ? '153,36,79' : isMid ? '102,97,0' : '169,104,0';
+
+      gsap.fromTo(gem,
+        { scale: 0, opacity: 0 },
+        {
+          scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2.8)',
+          scrollTrigger: { trigger: item, start: 'top 86%', once: true },
+          onComplete: function () {
+            gsap.timeline()
+              .to(gem, { scale: 1.4, filter: 'drop-shadow(0 0 20px rgba(' + gc + ',1))',  duration: 0.30, ease: 'power2.out' })
+              .to(gem, { scale: 1,   filter: 'drop-shadow(0 0 5px rgba('  + gc + ',0.35))', duration: 0.28, ease: 'power2.in'  })
+              .to(gem, { scale: 1.2, filter: 'drop-shadow(0 0 14px rgba(' + gc + ',0.8))', duration: 0.22, ease: 'power2.out' })
+              .to(gem, { scale: 1,   filter: 'drop-shadow(0 0 4px rgba('  + gc + ',0.25))', duration: 0.32, ease: 'power2.in'  });
+          }
+        }
+      );
+
+      var els = [
+        item.querySelector('.itv3-time'),
+        item.querySelector('.itv3-ev'),
+        item.querySelector('.itv3-sub')
+      ].filter(Boolean);
+
+      gsap.fromTo(els,
+        { y: 14, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out', stagger: 0.08,
+          scrollTrigger: { trigger: item, start: 'top 86%', once: true } }
+      );
+    });
+  }
+
   /* ── scrollAnims ───────────────────────────────── */
   function scrollAnims() {
     /* generic fade-up */
@@ -3677,49 +3731,8 @@
       );
     });
 
-    /* ── ITINERARY CARDS ANIMATION ──────────────── */
-    var itinLine = document.getElementById('itin-line');
-    gsap.to(itinLine, {
-      height: '100%',
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.itin-container',
-        start: 'top 72%',
-        end: 'bottom 72%',
-        scrub: 0.6
-      }
-    });
-
-    gsap.utils.toArray('.itin-card').forEach(function (card, i) {
-      // Card entrance
-      gsap.to(card, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.9,
-        ease: 'power3.out',
-        delay: i * 0.12,
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 88%',
-          toggleActions: 'play none none none'
-        }
-      });
-
-      // Shimmer effect on each card
-      var shine = card.querySelector('.itin-card-shine');
-      gsap.to(shine, {
-        left: '200%',
-        duration: 1.5,
-        ease: 'power2.inOut',
-        delay: 0.5 + i * 0.15,
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
-        }
-      });
-    });
+    /* ── ITINERARY (itv3) ───────────────────────── */
+    initItinerary();
 
     /* ── GALLERY ANIMATIONS ─────────────────────── */
     gsap.utils.toArray('.gal-item').forEach(function (item, i) {
