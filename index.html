@@ -2495,6 +2495,117 @@
     }
     .itv3-item:last-child { padding-bottom: 10px; }
 
+    /* ── SWATCHES 3x2 ──────────────────────────── */
+    .swatches { grid-template-columns: repeat(3, 1fr); max-width: 300px; margin: 0 auto 24px; }
+
+    /* ── DC COUPLE ILLUSTRATIONS ───────────────── */
+    .dc-couple {
+      display: flex; align-items: flex-end; justify-content: center;
+      gap: 0; margin: 36px auto 32px; max-width: 320px;
+    }
+    .dc-figure { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .dc-svg { width: 88px; height: 176px; overflow: visible; }
+    .dc-figure-label {
+      font-family: var(--serif); font-style: italic; font-size: 11px;
+      letter-spacing: 3px; color: var(--gold); opacity: .8; text-transform: uppercase;
+    }
+    .dc-divider-v {
+      width: 1px; height: 150px;
+      background: linear-gradient(to bottom, transparent, rgba(169,104,0,.5) 25%, rgba(169,104,0,.5) 75%, transparent);
+      align-self: center; margin: 0 14px 26px;
+    }
+
+    /* ── PARALLAX PHOTO CARDS ───────────────────── */
+    .par-photo-wrap {
+      position: relative; overflow: hidden;
+      width: min(260px, 82vw); margin: 44px auto;
+      border-radius: 3px;
+      box-shadow: 0 12px 40px rgba(30,18,0,.14);
+    }
+    .par-photo-wrap::before {
+      content: ''; position: absolute; inset: 10px;
+      border: 1px solid rgba(169,104,0,.35); border-radius: 2px;
+      z-index: 2; pointer-events: none;
+    }
+    .par-photo {
+      width: 100%; height: 370px;
+      object-fit: cover; object-position: center top;
+      display: block; will-change: transform;
+    }
+    .par-photo-caption {
+      text-align: center; padding: 10px 0 14px;
+      font-family: var(--serif); font-style: italic;
+      font-size: 12px; letter-spacing: 2px; color: var(--gold); opacity: .7;
+    }
+
+    /* hero portrait frame */
+    .hero-portrait-wrap {
+      position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+      width: min(180px, 52vw); z-index: 4;
+    }
+    .hero-portrait-wrap::before {
+      content: ''; position: absolute; inset: 8px;
+      border: 1px solid rgba(212,197,178,.45); border-radius: 2px;
+      z-index: 2; pointer-events: none;
+    }
+    .hero-portrait-img {
+      width: 100%; height: 240px; object-fit: cover; object-position: center top;
+      display: block; border-radius: 2px; will-change: transform;
+      filter: brightness(.92) contrast(1.04);
+    }
+    .hero-portrait-caption {
+      text-align: center; margin-top: 8px;
+      font-family: var(--serif); font-style: italic;
+      font-size: 11px; letter-spacing: 3px; color: rgba(255,255,255,.7);
+    }
+
+    /* ── ENVELOPE / LLUVIA DE SOBRES ───────────── */
+    .gift-envelope-section {
+      display: flex; flex-direction: column; align-items: center;
+      margin: 20px auto 0; text-align: center; max-width: 340px;
+    }
+    .gift-env-btn {
+      cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+      background: none; border: none; padding: 0; display: flex; flex-direction: column;
+      align-items: center; gap: 0; position: relative;
+    }
+    .gift-env-body-svg {
+      width: 220px; display: block;
+      filter: drop-shadow(0 8px 24px rgba(169,104,0,.18));
+      transition: filter .35s ease;
+    }
+    .gift-env-btn.open .gift-env-body-svg { filter: drop-shadow(0 14px 36px rgba(169,104,0,.32)); }
+    .gift-env-flap-wrap {
+      position: absolute; top: 0; left: 0; width: 100%;
+      transform-origin: top center;
+      transform: perspective(500px) rotateX(0deg);
+      transition: transform .55s cubic-bezier(.4,0,.2,1);
+    }
+    .gift-env-btn.open .gift-env-flap-wrap {
+      transform: perspective(500px) rotateX(-165deg);
+    }
+    .gift-env-flap-svg { width: 220px; display: block; }
+    .gift-env-hint {
+      font-family: var(--serif); font-style: italic;
+      font-size: 12px; letter-spacing: 2px; color: var(--gold); margin-top: 14px;
+      transition: opacity .3s;
+    }
+    .gift-env-btn.open + .gift-env-hint { opacity: 0; pointer-events: none; }
+    .gift-env-content {
+      max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height .65s cubic-bezier(.4,0,.2,1), opacity .45s ease .1s;
+      padding: 0 20px; width: 100%;
+    }
+    .gift-env-btn.open ~ .gift-env-content { max-height: 240px; opacity: 1; }
+    .gift-env-title {
+      font-family: var(--script); font-size: 30px; color: var(--accent);
+      margin: 18px 0 6px;
+    }
+    .gift-env-desc {
+      font-family: var(--serif); font-size: 14px;
+      color: rgba(30,18,0,.68); line-height: 1.7;
+    }
+
   </style>
 </head>
 <body>
@@ -2584,6 +2695,14 @@
         <div class="hero-ornament-bottom" id="hero-orn-bottom" aria-hidden="true"></div>
         <p class="hero-date"  id="hero-date">07 · Noviembre · MMXXVI</p>
         <p class="hero-city"  id="hero-city">Piedras Negras, Coahuila</p>
+      </div>
+
+      <!-- Retrato de los novios con parallax -->
+      <div class="hero-portrait-wrap" id="heroPortrait">
+        <img class="hero-portrait-img" id="heroPortraitImg"
+          src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288505754-1.jpeg"
+          alt="Gustavo y Paola" loading="eager" decoding="async">
+        <p class="hero-portrait-caption">G &amp; P</p>
       </div>
 
       <div class="hero-scroll" id="hero-scroll" aria-hidden="true">
@@ -2940,6 +3059,78 @@
           <div class="sw-circle" style="background:#da5100" aria-label="Terracota"></div>
           <span class="sw-name">Terracota</span>
         </div>
+        <div class="swatch" role="listitem">
+          <div class="sw-circle" style="background:#D4C5B2" aria-label="Arena"></div>
+          <span class="sw-name">Arena</span>
+        </div>
+      </div>
+
+      <!-- Ilustraciones caballero & dama -->
+      <div class="dc-couple fu" aria-hidden="true">
+        <div class="dc-figure">
+          <svg class="dc-svg" viewBox="0 0 80 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- cabeza -->
+            <ellipse cx="40" cy="18" rx="10" ry="12" fill="var(--crema)" stroke="var(--gold)" stroke-width="1"/>
+            <!-- cuello -->
+            <rect x="37" y="30" width="6" height="8" fill="var(--crema)" stroke="var(--gold)" stroke-width=".7"/>
+            <!-- camisa / cuello camisola -->
+            <path d="M34 38 L40 46 L46 38" fill="var(--crema)" stroke="var(--gold)" stroke-width=".8"/>
+            <!-- saco -->
+            <path d="M22 38 L18 90 L62 90 L58 38 Z" fill="var(--accent)" stroke="var(--gold)" stroke-width=".8" opacity=".85"/>
+            <!-- solapa izquierda -->
+            <path d="M34 38 L22 55 L28 72 L34 62 L40 46" fill="var(--crema)" stroke="var(--gold)" stroke-width=".7"/>
+            <!-- solapa derecha -->
+            <path d="M46 38 L58 55 L52 72 L46 62 L40 46" fill="var(--crema)" stroke="var(--gold)" stroke-width=".7"/>
+            <!-- corbata -->
+            <path d="M38 46 L36 62 L40 68 L44 62 L42 46 Z" fill="var(--gold)" opacity=".9"/>
+            <!-- pañuelo de bolsillo -->
+            <path d="M50 50 L54 48 L55 52" stroke="var(--champagne)" stroke-width=".8" fill="none"/>
+            <!-- botones -->
+            <circle cx="40" cy="74" r="1.2" fill="var(--champagne)"/>
+            <circle cx="40" cy="81" r="1.2" fill="var(--champagne)"/>
+            <!-- pantalón izquierdo -->
+            <rect x="24" y="90" width="13" height="58" rx="2" fill="var(--text)" opacity=".7"/>
+            <!-- pantalón derecho -->
+            <rect x="43" y="90" width="13" height="58" rx="2" fill="var(--text)" opacity=".7"/>
+            <!-- zapatos -->
+            <ellipse cx="30" cy="151" rx="9" ry="3.5" fill="var(--text)"/>
+            <ellipse cx="49" cy="151" rx="9" ry="3.5" fill="var(--text)"/>
+          </svg>
+          <span class="dc-figure-label">Caballero</span>
+        </div>
+
+        <div class="dc-divider-v"></div>
+
+        <div class="dc-figure">
+          <svg class="dc-svg" viewBox="0 0 80 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- cabello -->
+            <path d="M28 10 Q35 3 40 7 Q45 3 52 10 Q57 17 54 26 Q55 12 48 8 Q44 5 40 9 Q36 5 32 8 Q25 12 26 26 Q23 17 28 10Z" fill="var(--terracota)" opacity=".45"/>
+            <!-- cabeza -->
+            <ellipse cx="40" cy="20" rx="10" ry="12" fill="var(--crema)" stroke="var(--gold)" stroke-width="1"/>
+            <!-- cuello -->
+            <rect x="37" y="32" width="6" height="5" fill="var(--crema)" stroke="var(--gold)" stroke-width=".7"/>
+            <!-- escote hombros -->
+            <path d="M18 37 Q28 32 40 36 Q52 32 62 37" fill="none" stroke="var(--gold)" stroke-width=".9"/>
+            <!-- corpiño -->
+            <path d="M18 37 L21 70 L59 70 L62 37 Q52 32 40 36 Q28 32 18 37Z" fill="var(--terracota)" opacity=".75"/>
+            <!-- costura central corpiño -->
+            <line x1="40" y1="36" x2="40" y2="70" stroke="var(--champagne)" stroke-width=".6" opacity=".5"/>
+            <!-- cinturilla -->
+            <path d="M25 68 Q40 72 55 68" stroke="var(--gold)" stroke-width=".8" fill="none" opacity=".6"/>
+            <!-- falda -->
+            <path d="M21 70 L6 158 L74 158 L59 70 Z" fill="var(--terracota)" opacity=".6"/>
+            <!-- pliegues falda -->
+            <line x1="21" y1="70" x2="10" y2="158" stroke="var(--champagne)" stroke-width=".5" opacity=".35"/>
+            <line x1="40" y1="70" x2="40" y2="158" stroke="var(--champagne)" stroke-width=".5" opacity=".35"/>
+            <line x1="59" y1="70" x2="70" y2="158" stroke="var(--champagne)" stroke-width=".5" opacity=".35"/>
+            <!-- dobladillo -->
+            <path d="M6 154 Q40 160 74 154" stroke="var(--gold)" stroke-width=".8" fill="none" opacity=".45"/>
+            <!-- zapatos -->
+            <ellipse cx="30" cy="156" rx="8" ry="2.5" fill="var(--gold)" opacity=".6"/>
+            <ellipse cx="50" cy="156" rx="8" ry="2.5" fill="var(--gold)" opacity=".6"/>
+          </svg>
+          <span class="dc-figure-label">Dama</span>
+        </div>
       </div>
 
       <p class="dc-avoid fu">Por favor evitar: blanco, negro, amarillo neón y rojo vivo</p>
@@ -3045,6 +3236,14 @@
           </div>
         </div>
       </div>
+
+      <!-- Foto parallax 3 -->
+      <div class="par-photo-wrap" id="parPhoto3">
+        <img class="par-photo" id="parPhotoImg3"
+          src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288668512-0.jpeg"
+          alt="Gustavo y Paola" loading="lazy" decoding="async">
+        <p class="par-photo-caption">Con amor, para siempre</p>
+      </div>
     </section>
 
     <!-- ── 8. SIN NIÑOS ─────────────────────────────── -->
@@ -3105,33 +3304,36 @@
       <h2 class="title fu">Mesa <span style="font-family:var(--script);color:var(--accent);font-size:42px;">de</span> regalos</h2>
       <p class="gifts-sub fu">Si deseas obsequiarnos algo, hemos preparado estas opciones</p>
 
-      <div class="gifts-hearts">
-        <article class="gift-heart-wrapper fu">
-          <div class="gift-heart">
-            <svg class="heart-shape" viewBox="0 0 280 260" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <linearGradient id="heart-fill-1" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#FAF5EC"/>
-                  <stop offset="100%" stop-color="#F0E8D0"/>
-                </linearGradient>
-              </defs>
-              <path d="M140 58 C158 18 228 18 228 80 C228 142 140 230 140 230 C140 230 52 142 52 80 C52 18 122 18 140 58 Z"
-                    fill="url(#heart-fill-1)" stroke="#a96800" stroke-width="1.6"/>
+      <div class="gift-envelope-section fu">
+        <button class="gift-env-btn" id="giftEnvBtn" aria-expanded="false" aria-label="Toca para ver información de regalos">
+          <!-- Cuerpo del sobre -->
+          <svg class="gift-env-body-svg" viewBox="0 0 220 158" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="216" height="154" rx="5" fill="var(--surface)" stroke="var(--gold)" stroke-width="1.2"/>
+            <!-- pliegue inferior V -->
+            <path d="M2 156 L110 96 L218 156" fill="var(--crema)" stroke="var(--gold)" stroke-width=".8"/>
+            <!-- pliegue lateral izquierdo -->
+            <path d="M2 2 L110 96 L2 156" fill="rgba(169,104,0,.05)" stroke="var(--gold)" stroke-width=".6"/>
+            <!-- pliegue lateral derecho -->
+            <path d="M218 2 L110 96 L218 156" fill="rgba(169,104,0,.05)" stroke="var(--gold)" stroke-width=".6"/>
+            <!-- sello de cera -->
+            <circle cx="110" cy="96" r="24" fill="var(--accent)" opacity=".9"/>
+            <circle cx="110" cy="96" r="19" fill="none" stroke="var(--champagne)" stroke-width=".8" opacity=".7"/>
+            <text x="110" y="102" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-style="italic" fill="var(--champagne)">G&amp;P</text>
+          </svg>
+          <!-- Solapa del sobre (se pliega hacia atrás al abrir) -->
+          <div class="gift-env-flap-wrap" aria-hidden="true">
+            <svg class="gift-env-flap-svg" viewBox="0 0 220 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 2 L110 88 L218 2 Z" fill="var(--surface)" stroke="var(--gold)" stroke-width="1.2"/>
             </svg>
-            <div class="heart-content">
-              <div class="gift-icon-sm" aria-hidden="true">
-                <svg viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <rect x="8" y="18" width="36" height="24" rx="2"/>
-                  <path d="M8 26 Q26 36 44 26"/>
-                  <path d="M26 18 L26 42"/>
-                  <path d="M16 18 Q16 8 26 8 Q36 8 36 18"/>
-                </svg>
-              </div>
-              <div class="gift-name-sm fu">Lluvia de Sobres</div>
-              <div class="gift-desc-sm fu">Tu presencia es nuestro mayor regalo. Si deseas obsequiarnos algo, un sobre en el evento será muy apreciado.</div>
-            </div>
           </div>
-        </article>
+        </button>
+
+        <p class="gift-env-hint" id="giftEnvHint">Toca el sobre</p>
+
+        <div class="gift-env-content" id="giftContent" aria-hidden="true">
+          <p class="gift-env-title">Lluvia de Sobres</p>
+          <p class="gift-env-desc">Tu presencia es nuestro mayor regalo.<br>Si deseas obsequiarnos algo, un sobre con tu cariño en el evento será muy apreciado.</p>
+        </div>
       </div>
     </section>
 
@@ -3163,6 +3365,14 @@
       </div>
       <p class="album-text fu">Nos conocimos un noviembre — nuestro clima perfecto otoñal — cuando apenas éramos unos adolescentes: él de 15 y yo de 14. Desde entonces supimos que lo nuestro era especial. Fuimos nuestro primer amor y, sin saberlo, también el amor de nuestra vida.</p>
       <p class="album-text fu" style="margin-top:-12px;">Vivimos momentos hermosos, llenos de ilusiones y promesas, hasta que por cosas del destino nuestros caminos tuvieron que separarse. Solo los tiempos de Dios son perfectos.</p>
+      <!-- Foto parallax 2 -->
+      <div class="par-photo-wrap" id="parPhoto2">
+        <img class="par-photo" id="parPhotoImg2"
+          src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288529465-0.jpeg"
+          alt="Gustavo y Paola" loading="lazy" decoding="async">
+        <p class="par-photo-caption">Nuestra historia</p>
+      </div>
+
       <p class="album-text fu" style="margin-top:-12px;">Pero había algo más fuerte que el tiempo y la distancia. Siempre existió esa conexión inexplicable, ese hilo rojo bendecido por Dios que jamás permitió que nuestras almas dejaran de encontrarse. Y la vida nos regaló el milagro más bonito: volver a estar juntos. En 2022 y 2023 llegaron nuestros pedacitos de amor. Hoy entendemos que nuestra historia nunca tuvo un final… solo estaba esperando el momento perfecto para florecer.</p>
       <p class="album-text fu" style="margin-top:0;font-style:normal;font-size:14px;color:var(--accent);font-family:var(--script);font-size:22px;">"Uno solo puede ser vencido, pero dos pueden resistir. ¡Y la cuerda de tres hilos no se rompe fácilmente!"</p>
       <p class="album-text fu" style="font-size:12px;letter-spacing:2px;font-style:normal;opacity:.6;">Eclesiastés 4:9-12</p>
@@ -3350,6 +3560,7 @@
       setupPetalsVisibility();
       setupBgCrossfade();
       scrollAnims();
+      initEnvelope();
       startCountdown();
     }
 
@@ -3657,6 +3868,24 @@
   }
 
 
+  /* ── initEnvelope ───────────────────────────────── */
+  function initEnvelope() {
+    var btn     = document.getElementById('giftEnvBtn');
+    var hint    = document.getElementById('giftEnvHint');
+    var content = document.getElementById('giftContent');
+    if (!btn) return;
+    function toggle() {
+      var isOpen = btn.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (content) content.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      if (hint) hint.style.opacity = isOpen ? '0' : '';
+    }
+    btn.addEventListener('click', toggle);
+    btn.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  }
+
   /* ── initItinerary (itv3) ──────────────────────── */
   function initItinerary() {
     var glow    = document.getElementById('itvGlow');
@@ -3733,6 +3962,37 @@
 
     /* ── ITINERARY (itv3) ───────────────────────── */
     initItinerary();
+
+    /* ── PARALLAX PHOTOS ────────────────────────── */
+    (function () {
+      var heroImg = document.getElementById('heroPortraitImg');
+      if (heroImg) {
+        gsap.to(heroImg, {
+          y: -60, ease: 'none',
+          scrollTrigger: {
+            trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.2
+          }
+        });
+      }
+      var p2 = document.getElementById('parPhotoImg2');
+      if (p2) {
+        gsap.to(p2, {
+          y: -80, ease: 'none',
+          scrollTrigger: {
+            trigger: '#parPhoto2', start: 'top bottom', end: 'bottom top', scrub: 1.4
+          }
+        });
+      }
+      var p3 = document.getElementById('parPhotoImg3');
+      if (p3) {
+        gsap.to(p3, {
+          y: -80, ease: 'none',
+          scrollTrigger: {
+            trigger: '#parPhoto3', start: 'top bottom', end: 'bottom top', scrub: 1.4
+          }
+        });
+      }
+    })();
 
     /* ── GALLERY ANIMATIONS ─────────────────────── */
     gsap.utils.toArray('.gal-item').forEach(function (item, i) {
