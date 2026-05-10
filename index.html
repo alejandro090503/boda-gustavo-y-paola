@@ -813,7 +813,10 @@
        GALLERY — ANIMATED LUXURIOUS DESIGN
     ══════════════════════════════════════════════════════ */
     #galeria {
-      background: linear-gradient(180deg, var(--bg) 0%, var(--crema) 100%);
+      background:
+        radial-gradient(ellipse at 15% 85%, rgba(169,104,0,.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 15%, rgba(131,17,0,.05) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, #f5e9d6 100%);
       padding: 80px 0;
     }
 
@@ -2578,26 +2581,48 @@
     #galeria { text-align: center; }
     .gfall-wrap {
       display: flex; flex-direction: column; align-items: center;
-      gap: 28px; margin-top: 44px; padding-bottom: 8px;
+      gap: 44px; margin-top: 52px;
+      padding: 24px 16px 24px;
     }
     .gfall-card {
-      width: min(260px, 82vw);
-      background: #fff;
-      padding: 12px 12px 46px;
-      box-shadow: 0 10px 38px rgba(30,18,0,.16), 0 2px 8px rgba(30,18,0,.08);
+      position: relative;
+      width: min(278px, 86vw);
+      background: #fefdf9;
+      padding: 13px 13px 60px;
+      box-shadow:
+        0 2px 6px rgba(30,18,0,.05),
+        0 14px 44px rgba(30,18,0,.18),
+        0 36px 64px rgba(30,18,0,.06);
       opacity: 0;
       will-change: transform, opacity;
+      border: 1px solid rgba(220,200,170,.35);
     }
+    /* Cinta adhesiva decorativa */
+    .gfall-card::before {
+      content: '';
+      position: absolute;
+      top: -17px; left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 56px; height: 30px;
+      background: rgba(254,228,168,0.60);
+      border-left: 1px solid rgba(169,104,0,.14);
+      border-right: 1px solid rgba(169,104,0,.14);
+      z-index: 2;
+    }
+    .gfall-card:nth-child(2)::before { transform: translateX(-50%) rotate(2.8deg); }
+    .gfall-card:nth-child(3)::before { transform: translateX(-50%) rotate(-1deg); }
     .gfall-card:nth-child(1) { --rot: -4deg; }
-    .gfall-card:nth-child(2) { --rot:  3deg; }
-    .gfall-card:nth-child(3) { --rot: -2deg; }
+    .gfall-card:nth-child(2) { --rot:  3.5deg; }
+    .gfall-card:nth-child(3) { --rot: -2.5deg; }
     .gfall-img {
-      width: 100%; height: 300px; object-fit: cover;
-      object-position: center; display: block;
+      width: 100%; height: 290px; object-fit: cover;
+      object-position: center 20%; display: block;
+      filter: sepia(8%) saturate(1.10) brightness(1.01);
     }
     .gfall-caption {
-      font-family: var(--script); font-size: 22px;
-      color: var(--gold); text-align: center; margin-top: 8px;
+      font-family: var(--script); font-size: 24px;
+      color: var(--gold); text-align: center;
+      margin-top: 10px; line-height: 1; letter-spacing: .02em;
     }
 
     /* ── ENVELOPE / LLUVIA DE SOBRES ───────────── */
@@ -3453,13 +3478,14 @@
       <svg class="rose-watermark lg" style="top:10%;right:-50px;transform:rotate(14deg)" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
       <svg class="rose-watermark md" style="bottom:12%;left:-35px;transform:rotate(-20deg)" viewBox="0 0 100 100" aria-hidden="true" fill="currentColor"><path d="M50 84 C30 70 10 55 10 34 C10 22 20 13 31 13 C40 13 46 17 50 23 C54 17 60 13 69 13 C80 13 90 22 90 34 C90 55 70 70 50 84 Z"/></svg>
 
-      <p class="label fu" style="text-align:center;">Nuestros momentos</p>
-      <h2 class="title fu" style="text-align:center;">Galería</h2>
+      <p class="label fu" style="text-align:center;">La historia en imágenes</p>
+      <h2 class="title fu" style="text-align:center;">Nuestros momentos</h2>
       <div class="ornament-divider fu">
         <div class="line"></div>
         <div class="diamond"></div>
         <div class="line"></div>
       </div>
+      <p class="subtitle fu" style="text-align:center;font-style:italic;max-width:280px;margin:0 auto 0;">Cada foto, un capítulo de nuestra historia</p>
 
       <div class="gfall-wrap" id="gfallWrap">
         <div class="gfall-card" id="gfCard1">
@@ -3470,12 +3496,12 @@
         <div class="gfall-card" id="gfCard2">
           <img class="gfall-img" loading="lazy" decoding="async" alt="Gustavo y Paola"
             src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288529465-0.jpeg">
-          <p class="gfall-caption">Noviembre de 2026</p>
+          <p class="gfall-caption">Nuestro otoño dorado</p>
         </div>
         <div class="gfall-card" id="gfCard3">
           <img class="gfall-img" loading="lazy" decoding="async" alt="Gustavo y Paola"
             src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/28bcb334-b678-4a89-a35a-fcb96b7f325d/1778288668512-0.jpeg">
-          <p class="gfall-caption">Para siempre ✦</p>
+          <p class="gfall-caption">Por siempre ✦</p>
         </div>
       </div>
     </section>
@@ -3964,8 +3990,8 @@
     var cards = document.querySelectorAll('.gfall-card');
     if (!cards.length) return;
 
-    var rotations = [-4, 3, -2];
-    var offsets   = [-18, 22, -10];
+    var rotations = [-4, 3.5, -2.5];
+    var offsets   = [-28, 32, -16];
 
     cards.forEach(function (card, i) {
       var finalRot = rotations[i] || 0;
@@ -3979,10 +4005,10 @@
         x: finalX,
         duration: 1.15,
         ease: 'back.out(1.4)',
-        delay: 0.18 * i,
+        delay: 0.22 * i,
         scrollTrigger: {
           trigger: '#gfallWrap',
-          start: 'top 80%',
+          start: 'top 78%',
           once: true
         },
         onComplete: function () {
