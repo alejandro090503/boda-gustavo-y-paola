@@ -86,92 +86,117 @@
     button{ cursor: pointer; border: none; background: none; font-family: inherit; }
 
     /* ══════════════════════════════════════════════════════
-       ENVELOPE — IMAGEN + VIDEO IA
+       ENVELOPE — ANIMATED SVG OPENING
     ══════════════════════════════════════════════════════ */
 
-    /* Contenedor pantalla completa */
     #envelope-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 10000;
-      overflow: hidden;
-      cursor: pointer;
-      opacity: 0;
-      background: #fff;
+      position: fixed; inset: 0; z-index: 10000; overflow: hidden; cursor: pointer; opacity: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: radial-gradient(ellipse at 50% 55%, #3D1A1E 0%, #1A0D10 60%, #0D060A 100%);
+    }
+    #envelope-screen::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(169,104,0,.08) 0%, transparent 42%),
+        radial-gradient(circle at 85% 75%, rgba(131,17,0,.06) 0%, transparent 42%);
     }
 
-    /* Imagen estática del sobre — cubre toda la pantalla con zoom para ocultar watermark */
-    #env-image {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      z-index: 2;
-    }
-
-    /* Video de apertura — oculto hasta que el usuario toca */
-    #env-video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      z-index: 3;
-      opacity: 0;
-    }
-
-    /* Overlay blanco global — vive FUERA del sobre para persistir tras su eliminación */
+    /* Flash blanco global — vive FUERA del sobre para persistir tras su eliminación */
     #env-flash {
-      position: fixed;
-      inset: 0;
-      background: #fff;
-      z-index: 9999;
-      opacity: 0;
-      pointer-events: none;
+      position: fixed; inset: 0; background: #fff; z-index: 9999;
+      opacity: 0; pointer-events: none;
     }
 
+    /* Escena centrada — contenedor del sobre + hint */
+    #env-scene {
+      position: relative;
+      display: flex; flex-direction: column; align-items: center;
+      width: min(320px, 86vw); gap: 36px;
+      will-change: transform;
+    }
 
-    /* Hint text — "Toca para abrir" — pill visible sobre la imagen del sobre */
+    /* Palco 3-D: establece la perspectiva para la solapa */
+    #env-wrap {
+      position: relative; width: 100%;
+      aspect-ratio: 340 / 210;
+      perspective: 900px; perspective-origin: 50% 0%;
+    }
+
+    /* SVG base del sobre (cuerpo + triángulos de pliegue) */
+    #env-body-svg {
+      position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
+      filter: drop-shadow(0 12px 40px rgba(0,0,0,.55)) drop-shadow(0 2px 8px rgba(0,0,0,.4));
+    }
+
+    /* Tarjeta interior — se desliza al abrirse la solapa */
+    #env-letter {
+      position: absolute; left: 11%; right: 11%; top: 8%; bottom: 8%;
+      background: linear-gradient(155deg, #fefdf9 0%, #f7e8cc 100%);
+      border-radius: 2px; overflow: hidden;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      z-index: 2; opacity: 0;
+      will-change: transform, opacity;
+      box-shadow: inset 0 0 0 1px rgba(197,163,112,.25);
+    }
+
+    /* Solapa superior — gira hacia atrás al tocar */
+    #env-flap {
+      position: absolute; top: 0; left: 0; right: 0; height: 50%;
+      transform-origin: top center; transform-style: preserve-3d;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      z-index: 5;
+    }
+    #env-flap > svg { width: 100%; height: 100%; display: block; }
+
+    /* Sello de cera sobre la solapa */
+    .env-seal {
+      position: absolute; bottom: -22%; left: 50%; transform: translateX(-50%);
+      width: min(54px, 16vw); height: min(54px, 16vw); z-index: 10;
+      will-change: transform;
+      filter: drop-shadow(0 2px 8px rgba(131,17,0,.65));
+    }
+    .env-seal svg { width: 100%; height: 100%; }
+
+    /* Tipografía de la tarjeta interior */
+    .env-letter-tag {
+      font-family: var(--sans); font-size: 8px; letter-spacing: 3.5px; text-transform: uppercase;
+      color: rgba(169,104,0,.65); margin: 0; line-height: 1;
+    }
+    .env-letter-names {
+      font-family: var(--script); font-size: clamp(17px, 5.2vw, 24px);
+      color: #5C2800; line-height: 1.25; text-align: center; margin: 0;
+    }
+    .env-letter-amp { font-size: .78em; color: #831100; display: block; line-height: 1.1; }
+    .env-letter-date {
+      font-family: var(--sans); font-size: 9px; letter-spacing: 3px;
+      color: rgba(30,18,0,.48); margin: 0;
+    }
+    .env-letter-deco {
+      width: 36px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(169,104,0,.5), transparent);
+    }
+
+    /* Pill "Toca para abrir" — elemento de flujo dentro de #env-scene */
     .envelope-hint {
-      position: absolute;
-      bottom: 48px;
-      left: 50%;
-      transform: translateX(-50%) scale(1);
-      font-family: var(--sans);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #FAF0EE;
-      opacity: 0;
-      cursor: pointer;
-      white-space: nowrap;
-      z-index: 10;
-      padding: 12px 22px 12px 26px;
+      position: relative;
+      font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 4px;
+      text-transform: uppercase; color: #FAF0EE; opacity: 0; cursor: pointer; white-space: nowrap;
+      margin: 0; padding: 12px 22px 12px 26px;
       background: rgba(92,30,40,.82);
-      border: 1px solid rgba(232,184,189,.5);
-      border-radius: 100px;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      box-shadow:
-        0 4px 14px rgba(0,0,0,.35),
-        0 12px 32px -12px rgba(92,30,40,.6);
+      border: 1px solid rgba(232,184,189,.5); border-radius: 100px;
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 4px 14px rgba(0,0,0,.35), 0 12px 32px -12px rgba(92,30,40,.6);
       animation: hint-breathe 2.4s ease-in-out 1.6s infinite;
       will-change: transform, box-shadow;
     }
 
     @keyframes hint-breathe {
       0%, 100% {
-        transform: translateX(-50%) scale(1);
-        box-shadow:
-          0 4px 14px rgba(0,0,0,.35),
-          0 12px 32px -12px rgba(92,30,40,.6);
+        transform: scale(1);
+        box-shadow: 0 4px 14px rgba(0,0,0,.35), 0 12px 32px -12px rgba(92,30,40,.6);
       }
       50% {
-        transform: translateX(-50%) scale(1.07);
+        transform: scale(1.07);
         box-shadow:
           0 6px 18px rgba(0,0,0,.4),
           0 16px 40px -12px rgba(139,58,74,.8),
@@ -2714,18 +2739,89 @@
   <div id="falling-petals" aria-hidden="true"></div>
 
   <!-- ════════════════════════════════════
-       ENVELOPE OPENING SCREEN — IMAGEN + VIDEO IA
+       ENVELOPE OPENING SCREEN — ANIMATED SVG
   ════════════════════════════════════ -->
   <div id="envelope-screen" role="button" aria-label="Toca para abrir tu invitación">
+    <div id="env-scene">
+      <div id="env-wrap">
 
-    <!-- Imagen estática del sobre (IA generada) -->
-    <img id="env-image" src="sobre.png" alt="Sobre invitación Gustavo &amp; Paola" />
+        <!-- Cuerpo del sobre: base + triángulos de pliegue -->
+        <svg id="env-body-svg" viewBox="0 0 340 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="env-lg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#F5E8D2"/>
+              <stop offset="100%" stop-color="#EDD5B0"/>
+            </linearGradient>
+          </defs>
+          <!-- Base crema -->
+          <rect width="340" height="210" fill="url(#env-lg)" rx="3"/>
+          <!-- Pliegue izquierdo -->
+          <polygon points="0,0 170,105 0,210" fill="#E8D5B0" opacity="0.6"/>
+          <!-- Pliegue derecho -->
+          <polygon points="340,0 170,105 340,210" fill="#E8D5B0" opacity="0.6"/>
+          <!-- Pliegue inferior -->
+          <polygon points="0,210 170,116 340,210" fill="#DCC89A" opacity="0.75"/>
+          <!-- Líneas de pliegue -->
+          <line x1="0" y1="0" x2="170" y2="105" stroke="#C5A370" stroke-width="0.7" opacity="0.4"/>
+          <line x1="340" y1="0" x2="170" y2="105" stroke="#C5A370" stroke-width="0.7" opacity="0.4"/>
+          <line x1="0" y1="210" x2="170" y2="116" stroke="#C5A370" stroke-width="0.7" opacity="0.4"/>
+          <line x1="340" y1="210" x2="170" y2="116" stroke="#C5A370" stroke-width="0.7" opacity="0.4"/>
+          <!-- Borde decorativo punteado -->
+          <rect x="8" y="8" width="324" height="194" fill="none" rx="2"
+                stroke="#C5A370" stroke-width="0.7" stroke-dasharray="5,7" opacity="0.32"/>
+        </svg>
 
-    <!-- Video de apertura (IA generada) — oculto hasta el tap -->
-    <video id="env-video" src="sobre-apertura.mp4" playsinline webkit-playsinline muted preload="auto"></video>
+        <!-- Tarjeta interior — se revela cuando la solapa se abre -->
+        <div id="env-letter">
+          <div class="env-letter-deco"></div>
+          <p class="env-letter-tag">Nos casamos</p>
+          <p class="env-letter-names">
+            Nelly Paola<br>
+            <span class="env-letter-amp">&amp;</span>
+            Gustavo Alonso
+          </p>
+          <div class="env-letter-deco"></div>
+          <p class="env-letter-date">07 · 11 · 2026</p>
+        </div>
 
-    <!-- Hint inferior -->
-    <p class="envelope-hint" id="env-hint">Toca para abrir</p>
+        <!-- Solapa superior — gira hacia atrás al tocar -->
+        <div id="env-flap">
+          <svg viewBox="0 0 340 105" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="flap-lg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F2E2C0"/>
+                <stop offset="100%" stop-color="#E4CC92"/>
+              </linearGradient>
+            </defs>
+            <polygon points="0,0 340,0 170,105" fill="url(#flap-lg)"/>
+            <line x1="0" y1="0.5" x2="340" y2="0.5" stroke="#C5A370" stroke-width="1" opacity="0.5"/>
+          </svg>
+          <!-- Sello de cera -->
+          <div class="env-seal" id="env-seal">
+            <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <radialGradient id="seal-rg" cx="40%" cy="35%">
+                  <stop offset="0%" stop-color="#C0393B"/>
+                  <stop offset="100%" stop-color="#831100"/>
+                </radialGradient>
+              </defs>
+              <circle cx="26" cy="26" r="24" fill="url(#seal-rg)" stroke="#6B0D00" stroke-width="1"/>
+              <circle cx="26" cy="26" r="20" fill="none" stroke="rgba(255,220,180,.32)" stroke-width="0.8"/>
+              <text x="26" y="22" text-anchor="middle"
+                    font-family="Georgia,serif" font-size="8" font-style="italic"
+                    fill="#fee4a8" letter-spacing="1">G &amp; P</text>
+              <text x="26" y="34" text-anchor="middle"
+                    font-family="Georgia,serif" font-size="5"
+                    fill="rgba(254,228,168,.65)" letter-spacing="2">2026</text>
+            </svg>
+          </div>
+        </div>
+
+      </div><!-- /#env-wrap -->
+
+      <!-- Pill de acción -->
+      <p class="envelope-hint" id="env-hint">Toca para abrir</p>
+    </div><!-- /#env-scene -->
   </div>
 
   <!-- Overlay blanco global — fuera del sobre para persistir y hacer fade suave a la invitación -->
@@ -3696,33 +3792,36 @@
   ══════════════════════════════════════════════════ */
   (function () {
     var envScreen = document.getElementById('envelope-screen');
-    var envImage  = document.getElementById('env-image');
-    var envVideo  = document.getElementById('env-video');
     var envFlash  = document.getElementById('env-flash');
+    var envScene  = document.getElementById('env-scene');
+    var envFlap   = document.getElementById('env-flap');
+    var envLetter = document.getElementById('env-letter');
+    var envSeal   = document.getElementById('env-seal');
     var hint      = document.getElementById('env-hint');
     var opened    = false;
 
-    // ── Paso 1: La imagen aparece con fade-in suave ──
-    gsap.timeline()
-      .to(envScreen, {
-        opacity: 1,
-        duration: 1.2,
-        ease: 'power2.out',
-        delay: 0.3
-      })
-      .to(hint, {
-        opacity: 1,
-        duration: 0.9,
-        ease: 'power2.out'
-      }, '-=0.5');
+    // Estado inicial GSAP de la tarjeta (evitar conflicto con CSS transform)
+    gsap.set(envLetter, { y: 18, opacity: 0 });
+    gsap.set(envFlap,   { transformOrigin: 'top center' });
 
-    // (sin pulso infinito en la imagen del sobre — queda estática)
+    // ── Fade-in del sobre ──
+    gsap.to(envScreen, { opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.3 });
+    gsap.to(hint,      { opacity: 1, duration: 0.9, ease: 'power2.out', delay: 1.1 });
 
-    // ── Paso 3: flash blanco → preparar invitación detrás → disolver flash ──
-    var flashStarted  = false;
+    // ── Flotación idle suave ──
+    gsap.to(envScene, {
+      y: -9, duration: 2.6, yoyo: true, repeat: -1,
+      ease: 'power1.inOut', delay: 1.4
+    });
+
+    // ── Pulso del sello de cera ──
+    gsap.to(envSeal, {
+      scale: 1.06, duration: 1.9, yoyo: true, repeat: -1,
+      ease: 'sine.inOut', delay: 1.7
+    });
+
+    // ── Monta la invitación detrás del flash (invisible para el usuario) ──
     var invitationReady = false;
-
-    // Monta la invitación detrás del flash blanco (invisible para el usuario)
     function prepareInvitation() {
       if (invitationReady) return;
       invitationReady = true;
@@ -3738,64 +3837,56 @@
       startCountdown();
     }
 
-    // Disuelve el flash revelando la invitación suavemente
+    // ── Disuelve el flash revelando la invitación ──
     function revealInvitation() {
       prepareInvitation();
       gsap.to(envFlash, {
-        opacity: 0,
-        duration: 1.2,
-        ease: 'power2.out',
+        opacity: 0, duration: 1.2, ease: 'power2.out',
         onComplete: function () { envFlash.style.display = 'none'; }
       });
     }
 
-    // Flash blanco arranca 2s antes del final del video
-    envVideo.addEventListener('timeupdate', function () {
-      if (!flashStarted && envVideo.duration && envVideo.currentTime >= envVideo.duration - 2) {
-        flashStarted = true;
-        gsap.to(envFlash, {
-          opacity: 1,
-          duration: 1,
-          ease: 'power2.in',
-          onComplete: revealInvitation
-        });
-      }
-    });
-
-    // Seguro: si el video termina antes de que el flash complete, forzar
-    envVideo.addEventListener('ended', function () {
-      gsap.set(envFlash, { opacity: 1 });
-      revealInvitation();
-    });
-
-    // ── Paso 2: usuario toca → crossfade imagen→video simultáneo (sin negro) ──
+    // ── Animación de apertura del sobre ──
     function openEnvelope() {
       if (opened) return;
       opened = true;
 
-      // Detener pulso de la imagen
-      gsap.killTweensOf(envImage);
+      gsap.killTweensOf(envScene);
+      gsap.killTweensOf(envSeal);
 
-      // Hint desaparece
-      gsap.to(hint, { opacity: 0, duration: 0.2 });
+      var tl = gsap.timeline();
 
-      // Arrancar el video inmediatamente
-      var playPromise = envVideo.play();
+      // 1. Hint desaparece
+      tl.to(hint, { opacity: 0, duration: 0.25 }, 0);
 
-      // Crossfade simultáneo: imagen sale, video entra — nunca hay negro
-      gsap.to(envImage, {
-        opacity: 0, duration: 0.55, ease: 'power2.inOut',
-        onComplete: function () { envImage.style.display = 'none'; }
+      // 2. El sobre sube ligeramente (anticipación)
+      tl.to(envScene, { y: -18, duration: 0.38, ease: 'power2.out' }, 0.05);
+
+      // 3. Sello se disuelve con pequeño encogimiento
+      tl.to(envSeal, { opacity: 0, scale: 0.72, duration: 0.42, ease: 'power2.in' }, 0.08);
+
+      // 4. La solapa se abre girando hacia atrás sobre su borde superior
+      tl.to(envFlap, {
+        rotationX: -168, duration: 1.1,
+        ease: 'power2.inOut'
+      }, 0.32);
+
+      // 5. La tarjeta interior sube desde el sobre
+      tl.to(envLetter, {
+        opacity: 1, y: -22, duration: 0.82,
+        ease: 'back.out(1.25)'
+      }, 0.78);
+
+      // 6. Pausa para que el usuario aprecie la tarjeta
+      tl.to({}, { duration: 0.85 });
+
+      // 7. Flash blanco → reveal de la invitación
+      tl.to(envFlash, {
+        opacity: 1, duration: 0.85, ease: 'power2.in',
+        onComplete: revealInvitation
       });
-      gsap.to(envVideo, { opacity: 1, duration: 0.55, ease: 'power2.inOut' });
-
-      // Si el navegador bloquea el play (política de autoplay), ir directo a la invitación
-      if (playPromise !== undefined) {
-        playPromise.catch(function () { revealInvitation(); });
-      }
     }
 
-    // Tap en cualquier punto abre el sobre
     envScreen.addEventListener('click', openEnvelope);
     envScreen.addEventListener('touchstart', function (e) {
       e.preventDefault();
